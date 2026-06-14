@@ -12,7 +12,8 @@ import {
   ArrowRight,
   Check,
   X,
-  Wallet
+  Wallet,
+  Copy
 } from 'lucide-react'
 import { RecallResult, VerifyResult } from '@/types'
 
@@ -25,6 +26,22 @@ export default function Home() {
     type: 'decision'
   })
   const [storedResult, setStoredResult] = useState<{ id: string; txHash: string | null } | null>(null)
+
+  // Copy States
+  const [copiedId, setCopiedId] = useState(false)
+  const [copiedTx, setCopiedTx] = useState(false)
+
+  const copyToClipboard = (text: string, type: 'id' | 'tx') => {
+    navigator.clipboard.writeText(text)
+    if (type === 'id') {
+      setCopiedId(true)
+      setTimeout(() => setCopiedId(false), 2000)
+    } else {
+      setCopiedTx(true)
+      setTimeout(() => setCopiedTx(false), 2000)
+    }
+    toast.success(`${type === 'id' ? 'Memory ID' : 'Transaction hash'} copied to clipboard!`)
+  }
 
   // Recall Memory State
   const [recallLoading, setRecallLoading] = useState(false)
@@ -274,15 +291,53 @@ export default function Home() {
                 </span>
               </div>
               <div className="space-y-1">
-                <div className="text-[10px] text-gray-500 font-mono">MEMORY ID</div>
-                <div className="text-[11px] font-mono bg-black/40 p-2 rounded select-all truncate text-gray-300">
+                <div className="text-[10px] text-gray-500 font-mono flex items-center justify-between">
+                  <span>MEMORY ID</span>
+                  <button
+                    type="button"
+                    onClick={() => copyToClipboard(storedResult.id, 'id')}
+                    className="text-[10px] font-mono text-purple-400 hover:text-purple-300 flex items-center gap-1 transition-colors"
+                  >
+                    {copiedId ? (
+                      <>
+                        <Check className="w-3 h-3 text-green-400" />
+                        <span className="text-green-400">COPIED</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3 h-3" />
+                        <span>COPY</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+                <div className="text-[11px] font-mono bg-black/40 p-2 rounded select-all text-gray-300 break-all">
                   {storedResult.id}
                 </div>
               </div>
               {storedResult.txHash && (
                 <div className="space-y-1">
-                  <div className="text-[10px] text-gray-500 font-mono">TX HASH</div>
-                  <div className="text-[11px] font-mono bg-black/40 p-2 rounded select-all truncate text-gray-300">
+                  <div className="text-[10px] text-gray-500 font-mono flex items-center justify-between">
+                    <span>TX HASH</span>
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(storedResult.txHash!, 'tx')}
+                      className="text-[10px] font-mono text-purple-400 hover:text-purple-300 flex items-center gap-1 transition-colors"
+                    >
+                      {copiedTx ? (
+                        <>
+                          <Check className="w-3 h-3 text-green-400" />
+                          <span className="text-green-400">COPIED</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3 h-3" />
+                          <span>COPY</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                  <div className="text-[11px] font-mono bg-black/40 p-2 rounded select-all text-gray-300 break-all">
                     {storedResult.txHash}
                   </div>
                   <a 
@@ -291,7 +346,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="text-[10px] font-mono text-purple-400 hover:text-purple-300 inline-flex items-center gap-1 mt-1"
                   >
-                    View on PharosScan ↗
+                    View on PharosScan →
                   </a>
                 </div>
               )}
