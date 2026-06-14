@@ -8,7 +8,7 @@ export interface Memory {
   hash: string;
   txHash: string | null;
   timestamp: number;
-  embedding: number[] | null;
+  embedding: null; // No embeddings used
   createdAt: Date;
 }
 

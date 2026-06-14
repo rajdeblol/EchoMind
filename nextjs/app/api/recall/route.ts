@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { kvMemoryStorage } from '@/lib/kv-storage'
-import { openaiEmbeddingService } from '@/lib/openai-embeddings'
 import { RecallRequest, ApiResponse, RecallResult } from '@/types'
 
 export async function POST(request: NextRequest) {
@@ -16,11 +15,8 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Generate embedding for query
-    const queryEmbedding = await openaiEmbeddingService.generateEmbedding(query)
-    
-    // Perform semantic search
-    const results = await kvMemoryStorage.searchMemories(agentId, queryEmbedding, topK)
+    // Perform keyword-based search (no embeddings needed)
+    const results = await kvMemoryStorage.searchMemories(agentId, query, topK)
 
     return NextResponse.json<ApiResponse<RecallResult[]>>({
       success: true,

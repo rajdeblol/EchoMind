@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createHash } from 'crypto'
 import { kvMemoryStorage } from '@/lib/kv-storage'
-import { openaiEmbeddingService } from '@/lib/openai-embeddings'
 import { createPharosClient } from '@/lib/pharos-client'
 import { RememberRequest, ApiResponse, Memory } from '@/types'
 import { Hash } from 'viem'
@@ -19,13 +18,10 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Generate embedding
-    const embedding = await openaiEmbeddingService.generateEmbedding(content)
-    
     // Generate hash
     const hash = createHash('sha256').update(content).digest('hex')
     
-    // Create memory object
+    // Create memory object (no embedding needed)
     const memory: Memory = {
       id: createHash('sha256').update(Date.now().toString() + Math.random().toString()).digest('hex').slice(0, 32),
       agentId,
@@ -34,7 +30,7 @@ export async function POST(request: NextRequest) {
       hash,
       txHash: null,
       timestamp: Date.now(),
-      embedding,
+      embedding: null, // No embeddings
       createdAt: new Date(),
     }
 

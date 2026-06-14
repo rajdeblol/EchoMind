@@ -1,11 +1,5 @@
-import { Redis } from '@upstash/redis'
+import { kv } from '@vercel/kv'
 import { Memory, MemoryType, RecallResult } from '@/types'
-
-// Initialize Redis client
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-})
 
 const KV_PREFIX = 'echomind:'
 
@@ -22,16 +16,16 @@ export class KVMemoryStorage {
     const memoryKey = this.getKey(memory.agentId, memory.id)
     const agentKey = this.getAgentKey(memory.agentId)
     
-    // Store memory with 30 days TTL
-    await redis.set(memoryKey, JSON.stringify(memory), { ex: 60 * 60 * 24 * 30 })
+    // Store memory with TTL (30 days)
+    await kv.set(memoryKey, JSON.stringify(memory), { ex: 60 * 60 * 24 * 30 })
     
-    // Store memory ID in sorted set by timestamp
-    await redis.zadd(agentKey, { score: memory.timestamp, member: memory.id })
+    // Store memory ID in a list for the agent
+    await kv.lpush(agentKey, memory.id)
   }
 
   async getMemory(agentId: string, memoryId: string): Promise<Memory | null> {
     const memoryKey = this.getKey(agentId, memoryId)
-    const data = await redis.get<string>(memoryKey)
+    const data = await kv.get<string>(memoryKey)
     
     if (!data) return null
     return JSON.parse(data)
@@ -40,8 +34,8 @@ export class KVMemoryStorage {
   async getMemoriesByAgent(agentId: string, limit: number = 100): Promise<Memory[]> {
     const agentKey = this.getAgentKey(agentId)
     
-    // Get memory IDs sorted by timestamp (newest first)
-    const memoryIds = await redis.zrange<string>(agentKey, 0, limit - 1, { rev: true })
+    // Get memory IDs from the list
+    const memoryIds = await kv.lrange<string>(agentKey, 0, limit - 1)
     
     // Fetch all memories
     const memories: Memory[] = []
@@ -60,52 +54,53 @@ export class KVMemoryStorage {
     const updatedMemory = { ...memory, ...updates }
     const memoryKey = this.getKey(agentId, memoryId)
     
-    await redis.set(memoryKey, JSON.stringify(updatedMemory), { ex: 60 * 60 * 24 * 30 })
+    await kv.set(memoryKey, JSON.stringify(updatedMemory), { ex: 60 * 60 * 24 * 30 })
   }
 
   async deleteMemory(agentId: string, memoryId: string): Promise<void> {
     const memoryKey = this.getKey(agentId, memoryId)
     const agentKey = this.getAgentKey(agentId)
     
-    await redis.del(memoryKey)
-    await redis.zrem(agentKey, memoryId)
+    await kv.del(memoryKey)
+    
+    // Remove from agent's list
+    const memoryIds = await kv.lrange<string>(agentKey, 0, -1)
+    const filteredIds = memoryIds.filter(id => id !== memoryId)
+    await kv.del(agentKey)
+    if (filteredIds.length > 0) {
+      await kv.lpush(agentKey, ...filteredIds)
+    }
   }
 
   async searchMemories(
     agentId: string,
-    queryEmbedding: number[],
+    query: string,
     topK: number = 5
   ): Promise<RecallResult[]> {
     const memories = await this.getMemoriesByAgent(agentId, 1000)
+    const queryWords = query.toLowerCase().split(/\s+/).filter(w => w.length > 2)
+    
     const results: RecallResult[] = []
     
     for (const memory of memories) {
-      if (!memory.embedding) continue
+      const contentLower = memory.content.toLowerCase()
+      let matchCount = 0
       
-      const similarity = this.cosineSimilarity(queryEmbedding, memory.embedding)
-      results.push({ memory, similarity })
+      for (const word of queryWords) {
+        if (contentLower.includes(word)) {
+          matchCount++
+        }
+      }
+      
+      if (matchCount > 0) {
+        const similarity = matchCount / queryWords.length
+        results.push({ memory, similarity })
+      }
     }
     
     return results
       .sort((a, b) => b.similarity - a.similarity)
       .slice(0, topK)
-  }
-
-  private cosineSimilarity(a: number[], b: number[]): number {
-    if (a.length !== b.length) return 0
-    
-    let dotProduct = 0
-    let normA = 0
-    let normB = 0
-    
-    for (let i = 0; i < a.length; i++) {
-      dotProduct += a[i] * b[i]
-      normA += a[i] * a[i]
-      normB += b[i] * b[i]
-    }
-    
-    if (normA === 0 || normB === 0) return 0
-    return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB))
   }
 
   async getStats(agentId: string): Promise<{
