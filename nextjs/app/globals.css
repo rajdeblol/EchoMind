@@ -193,7 +193,7 @@ body:has(.light-product-page) nav .flex.items-center.gap-3 a.flex:hover {
 body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex h1,
 body:has(.light-product-page) nav .flex.items-center.gap-3 a.flex h1 {
   color: #ffffff !important;
-  font-size: 15px !important;
+  font-size: 18px !important;
   font-weight: 900 !important;
   letter-spacing: 0.05em !important;
   text-transform: uppercase !important;

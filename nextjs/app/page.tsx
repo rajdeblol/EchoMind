@@ -71,9 +71,6 @@ export default function StarksplitLandingPage() {
                   <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest font-mono mb-2">
                     LATEST MEMORY
                   </div>
-                  <h2 className="text-xl font-black text-[#0a0f2e] uppercase tracking-tight leading-none">
-                    Live anchor snapshot
-                  </h2>
                 </div>
                 <span className="bg-[#f0fdf4] border border-[#bbf7d0] text-[#16a34a] px-3 py-1 rounded-full text-[9px] font-bold tracking-wider uppercase font-mono whitespace-nowrap">
                   ANCHORED ✓

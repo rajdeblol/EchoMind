@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Brain, ExternalLink, Wallet, Menu, X } from 'lucide-react'
+import { Brain, Wallet, Menu, X } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function Navbar() {
@@ -154,15 +154,6 @@ export default function Navbar() {
 
         {/* Right Side: Action Buttons */}
         <div className="hidden md:flex items-center gap-3">
-          <a
-            href="https://atlantic.pharosscan.xyz"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-outline px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 tracking-wider uppercase"
-          >
-            PharosScan <ExternalLink className="w-3.5 h-3.5" />
-          </a>
-          
           <div className="relative">
             <button
               onClick={() => setShowDropdown(!showDropdown)}
@@ -251,16 +242,6 @@ export default function Navbar() {
           >
             How it works
           </Link>
-          <a
-            href="https://atlantic.pharosscan.xyz"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-outline w-full py-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 tracking-wider uppercase"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            PharosScan <ExternalLink className="w-3.5 h-3.5" />
-          </a>
-          
           <div className="space-y-2">
             <button
               onClick={() => setShowMobileDropdown(!showMobileDropdown)}
