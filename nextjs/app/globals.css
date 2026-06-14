@@ -160,28 +160,29 @@ body:has(.landing-page-white) nav,
 body:has(.light-product-page) nav {
   background-color: #ffffff !important;
   border: none !important;
-  border-bottom: 2px solid #0a0f2e !important; /* Thick bottom border */
-  box-shadow: none !important;
+  border-bottom: 3px solid #1b2340 !important;
+  box-shadow: 0 1px 0 rgba(10, 15, 46, 0.05) !important;
   margin-top: 0 !important;
   border-radius: 0 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
-  padding-top: 16px !important;
-  padding-bottom: 16px !important;
+  padding-top: 18px !important;
+  padding-bottom: 18px !important;
 }
 
 /* Navbar Logo block (solid dark navy box like STARKSPLIT) */
 body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex,
 body:has(.light-product-page) nav .flex.items-center.gap-3 a.flex {
-  background-color: #0a0f2e !important;
+  background: linear-gradient(180deg, #15204d 0%, #0a0f2e 100%) !important;
   color: #ffffff !important;
-  padding: 8px 16px !important;
-  border-radius: 6px !important;
+  padding: 12px 18px !important;
+  border-radius: 8px !important;
   border: 2px solid #0a0f2e !important;
   display: flex !important;
   align-items: center !important;
   gap: 0px !important;
   transition: transform 0.1s ease-in-out !important;
+  box-shadow: 0 5px 0 0 #1b2340 !important;
 }
 
 body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex:hover,
@@ -193,7 +194,7 @@ body:has(.light-product-page) nav .flex.items-center.gap-3 a.flex:hover {
 body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex h1,
 body:has(.light-product-page) nav .flex.items-center.gap-3 a.flex h1 {
   color: #ffffff !important;
-  font-size: 18px !important;
+  font-size: 20px !important;
   font-weight: 900 !important;
   letter-spacing: 0.05em !important;
   text-transform: uppercase !important;
@@ -213,10 +214,10 @@ body:has(.light-product-page) nav span.badge-pill {
   background-color: #ffffff !important;
   color: #0a0f2e !important;
   border: 2px solid #0a0f2e !important; /* Thick border */
-  box-shadow: none !important;
+  box-shadow: 0 3px 0 0 #1b2340 !important;
   font-weight: 800 !important;
   border-radius: 9999px !important;
-  font-size: 9px !important;
+  font-size: 10px !important;
 }
 
 /* Desktop navbar links - styled as rounded-full tab buttons */
@@ -229,8 +230,8 @@ body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a,
 body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 a {
   border: 2px solid #0a0f2e !important;
   border-radius: 9999px !important; /* Pill shaped */
-  padding: 6px 16px !important;
-  font-size: 11px !important;
+  padding: 9px 18px !important;
+  font-size: 12px !important;
   font-weight: 800 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
@@ -238,20 +239,21 @@ body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 a {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
+  box-shadow: 0 4px 0 0 #1b2340 !important;
 }
 
 /* Home button (blue active) */
 body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/"],
 body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 a[href="/"] {
-  background-color: #2563eb !important;
+  background: linear-gradient(180deg, #4f7df7 0%, #3767ea 100%) !important;
   color: #ffffff !important;
 }
 
 body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/"]:hover,
 body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 a[href="/"]:hover {
-  background-color: #1d4ed8 !important;
+  background: linear-gradient(180deg, #5f89ff 0%, #2f5fe0 100%) !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
+  box-shadow: 0 5px 0 0 #1b2340 !important;
 }
 
 /* Dashboard and How It Works buttons (white outline) */
@@ -269,7 +271,7 @@ body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 a[href=
 body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 a[href="/how-it-works"]:hover {
   background-color: #f8fafc !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 5px 0 0 #1b2340 !important;
 }
 
 /* Right Side buttons (PharosScan and Connect Wallet) */
@@ -279,7 +281,7 @@ body:has(.light-product-page) nav .btn-outline {
   color: #0a0f2e !important;
   border: 2px solid #0a0f2e !important;
   border-radius: 9999px !important; /* Pill shaped */
-  box-shadow: none !important;
+  box-shadow: 0 4px 0 0 #1b2340 !important;
   font-weight: 800 !important;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
@@ -288,25 +290,25 @@ body:has(.landing-page-white) nav .btn-outline:hover,
 body:has(.light-product-page) nav .btn-outline:hover {
   background-color: #f8fafc !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 5px 0 0 #1b2340 !important;
 }
 
 body:has(.landing-page-white) nav .btn-purple,
 body:has(.light-product-page) nav .btn-purple {
-  background-color: #2563eb !important; /* Blue filled */
+  background: linear-gradient(180deg, #4f7df7 0%, #3767ea 100%) !important;
   color: #ffffff !important;
   border: 2px solid #0a0f2e !important;
   border-radius: 9999px !important; /* Pill shaped */
-  box-shadow: none !important;
+  box-shadow: 0 4px 0 0 #1b2340 !important;
   font-weight: 800 !important;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 body:has(.landing-page-white) nav .btn-purple:hover,
 body:has(.light-product-page) nav .btn-purple:hover {
-  background-color: #1d4ed8 !important;
+  background: linear-gradient(180deg, #5f89ff 0%, #2f5fe0 100%) !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
+  box-shadow: 0 5px 0 0 #1b2340 !important;
 }
 
 /* Mobile menu container overrides */
@@ -317,7 +319,7 @@ body:has(.light-product-page) nav div.md\:hidden {
   padding: 16px !important;
   margin-top: 12px !important;
   border-radius: 12px !important;
-  box-shadow: 4px 4px 0px 0px #0a0f2e !important;
+  box-shadow: 0 5px 0 0 #1b2340 !important;
   border: 2px solid #0a0f2e !important;
 }
 
@@ -329,13 +331,14 @@ body:has(.light-product-page) nav div.md\:hidden a {
   font-weight: 800 !important;
   font-size: 12px !important;
   letter-spacing: 0.05em !important;
-  padding: 8px 16px !important;
+  padding: 9px 16px !important;
   transition: all 0.2s ease-in-out !important;
+  box-shadow: 0 4px 0 0 #1b2340 !important;
 }
 
 body:has(.landing-page-white) nav div.md\:hidden a[href="/"],
 body:has(.light-product-page) nav div.md\:hidden a[href="/"] {
-  background-color: #2563eb !important;
+  background: linear-gradient(180deg, #4f7df7 0%, #3767ea 100%) !important;
   color: #ffffff !important;
 }
 
@@ -371,12 +374,12 @@ body:has(.light-product-page) nav div.md\:hidden .btn-purple {
 .light-product-page .premium-card {
   background-color: #ffffff !important;
   border: 2px solid #0a0f2e !important;
-  box-shadow: 6px 6px 0px 0px #0a0f2e !important;
+  box-shadow: 8px 8px 0px 0px #1b2340 !important;
 }
 
 .light-product-page .premium-card:hover {
   transform: translate(-2px, -2px) !important;
-  box-shadow: 8px 8px 0px 0px #0a0f2e !important;
+  box-shadow: 10px 10px 0px 0px #1b2340 !important;
 }
 
 .light-product-page .premium-input {
@@ -391,14 +394,14 @@ body:has(.light-product-page) nav div.md\:hidden .btn-purple {
 }
 
 .light-product-page .btn-purple {
-  background-color: #2563eb !important;
+  background: linear-gradient(180deg, #4f7df7 0%, #3767ea 100%) !important;
   border: 2px solid #0a0f2e !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 0 0 #0a0f2e !important;
+  box-shadow: 0 4px 0 0 #1b2340 !important;
 }
 
 .light-product-page .btn-purple:hover:not(:disabled) {
-  background-color: #1d4ed8 !important;
+  background: linear-gradient(180deg, #5f89ff 0%, #2f5fe0 100%) !important;
   transform: translateY(-1px) !important;
 }
 
@@ -406,7 +409,11 @@ body:has(.light-product-page) nav div.md\:hidden .btn-purple {
   background-color: #ffffff !important;
   border: 2px solid #0a0f2e !important;
   color: #0a0f2e !important;
-  box-shadow: none !important;
+  box-shadow: 0 4px 0 0 #1b2340 !important;
+}
+
+.light-product-page .btn-outline:hover:not(:disabled) {
+  box-shadow: 0 5px 0 0 #1b2340 !important;
 }
 
 .light-product-page .badge-pill {
@@ -443,12 +450,12 @@ body:has(.light-product-page) nav div.md\:hidden .btn-purple {
 .starksplit-card {
   background-color: #ffffff !important;
   border: 2px solid #0a0f2e !important;
-  border-radius: 12px !important;
-  box-shadow: 6px 6px 0px 0px #0a0f2e !important;
+  border-radius: 14px !important;
+  box-shadow: 8px 8px 0px 0px #1b2340 !important;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .starksplit-card:hover {
   transform: translate(-2px, -2px) !important;
-  box-shadow: 8px 8px 0px 0px #0a0f2e !important;
+  box-shadow: 10px 10px 0px 0px #1b2340 !important;
 }

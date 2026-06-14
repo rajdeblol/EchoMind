@@ -33,7 +33,7 @@ export default function StarksplitLandingPage() {
           <div className="flex flex-wrap gap-4 mb-8">
             <Link 
               href="/dashboard"
-              className="bg-[#2563eb] text-white border-2 border-[#0a0f2e] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#1d4ed8] transition-all transform hover:-translate-y-[1px] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] flex items-center gap-1.5"
+              className="bg-[#4f7df7] text-white border-2 border-[#0a0f2e] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#3767ea] transition-all transform hover:-translate-y-[1px] hover:shadow-[0_5px_0_0_#1b2340] shadow-[0_4px_0_0_#1b2340] flex items-center gap-1.5"
             >
               <span>Launch App</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -41,7 +41,7 @@ export default function StarksplitLandingPage() {
             
             <Link 
               href="/how-it-works"
-              className="bg-white text-[#0a0f2e] border-2 border-[#0a0f2e] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-slate-50 transition-all transform hover:-translate-y-[1px] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)]"
+              className="bg-white text-[#0a0f2e] border-2 border-[#0a0f2e] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-slate-50 transition-all transform hover:-translate-y-[1px] hover:shadow-[0_5px_0_0_#1b2340] shadow-[0_4px_0_0_#1b2340]"
             >
               How It Works
             </Link>
@@ -49,13 +49,13 @@ export default function StarksplitLandingPage() {
           
           {/* Feature Pills - Pill border style */}
           <div className="flex flex-wrap gap-2.5">
-            <span className="border border-[#0a0f2e] bg-white text-[#0a0f2e] px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono">
+            <span className="border-2 border-[#0a0f2e] bg-white text-[#0a0f2e] px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono shadow-[0_3px_0_0_#1b2340]">
               No Mock Data
             </span>
-            <span className="border border-[#0a0f2e] bg-white text-[#0a0f2e] px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono">
+            <span className="border-2 border-[#0a0f2e] bg-white text-[#0a0f2e] px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono shadow-[0_3px_0_0_#1b2340]">
               On-Chain Proof
             </span>
-            <span className="border border-[#0a0f2e] bg-white text-[#0a0f2e] px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono">
+            <span className="border-2 border-[#0a0f2e] bg-white text-[#0a0f2e] px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono shadow-[0_3px_0_0_#1b2340]">
               Semantic Recall
             </span>
           </div>
@@ -63,73 +63,68 @@ export default function StarksplitLandingPage() {
 
         {/* RIGHT COLUMN */}
         <div className="w-full max-w-md mx-auto">
-          {/* Latest Memory Preview */}
-          <div className="starksplit-card p-6 flex flex-col justify-between">
+          <div className="flex items-start justify-between gap-4 mb-8">
             <div>
-              <div className="flex items-start justify-between gap-4 mb-6">
-                <div>
-                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest font-mono mb-2">
-                    LATEST MEMORY
-                  </div>
-                </div>
-                <span className="bg-[#f0fdf4] border border-[#bbf7d0] text-[#16a34a] px-3 py-1 rounded-full text-[9px] font-bold tracking-wider uppercase font-mono whitespace-nowrap">
-                  ANCHORED ✓
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-                <div className="bg-white border-2 border-[#0a0f2e] px-4 py-3 rounded-lg">
-                  <span className="block text-[9px] uppercase tracking-wider text-gray-400 font-mono mb-1">Agent ID</span>
-                  <span className="block text-sm font-bold text-[#0a0f2e] font-mono">trader-01</span>
-                </div>
-
-                <div className="bg-white border-2 border-[#0a0f2e] px-4 py-3 rounded-lg">
-                  <span className="block text-[9px] uppercase tracking-wider text-gray-400 font-mono mb-1">Type</span>
-                  <span className="block text-sm font-bold text-[#0a0f2e] font-mono">decision</span>
-                </div>
-              </div>
-
-              <div className="bg-white border-2 border-[#0a0f2e] px-4 py-3 rounded-lg mb-5">
-                <span className="block text-[9px] uppercase tracking-wider text-gray-400 font-mono mb-1">Content</span>
-                <p className="text-sm font-semibold text-[#0a0f2e] leading-relaxed">
-                  Swapped USDC → WETH at $3,180 to rebalance risk.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                <div className="bg-[#f8fafc] border-2 border-[#0a0f2e] p-4 rounded-lg">
-                  <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-1 font-mono">
-                    TX
-                  </span>
-                  <span className="font-mono text-gray-600 select-all block">
-                    0xcb58aa...037a
-                  </span>
-                </div>
-
-                <div className="bg-[#f8fafc] border-2 border-[#0a0f2e] p-4 rounded-lg">
-                  <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-1 font-mono">
-                    Block
-                  </span>
-                  <span className="font-mono text-gray-600 font-bold block">#1548293</span>
-                </div>
-              </div>
-
-              <div className="flex justify-between items-center mt-5 pt-4 border-t-2 border-[#0a0f2e]">
-                <span className="text-[10px] font-mono text-gray-500">Stored 2 min ago</span>
-                <a 
-                  href="https://atlantic.pharosscan.xyz/tx/0xcb58aa000000000000000000000000000000037a"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[10px] font-bold text-[#2563eb] hover:text-[#1d4ed8] hover:underline flex items-center gap-0.5 font-mono"
-                >
-                  View on PharosScan ↗
-                </a>
+              <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest font-mono mb-2">
+                LATEST MEMORY
               </div>
             </div>
+            <span className="bg-[#f0fdf4] border border-[#bbf7d0] text-[#16a34a] px-3 py-1 rounded-full text-[9px] font-bold tracking-wider uppercase font-mono whitespace-nowrap shadow-[0_2px_0_0_#86efac]">
+              ANCHORED ✓
+            </span>
+          </div>
 
-            <div className="mt-6 bg-[#d1fae5] border-2 border-[#10b981] text-[#065f46] px-4 py-2.5 rounded-lg text-xs font-bold text-center font-mono">
-              Tx confirmed on PharosScan
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+            <div className="bg-white border-2 border-[#0a0f2e] px-4 py-3 rounded-lg shadow-[0_3px_0_0_#1b2340]">
+              <span className="block text-[9px] uppercase tracking-wider text-gray-600 font-mono mb-1">Agent ID</span>
+              <span className="block text-sm font-bold text-[#0a0f2e] font-mono">trader-01</span>
             </div>
+
+            <div className="bg-white border-2 border-[#0a0f2e] px-4 py-3 rounded-lg shadow-[0_3px_0_0_#1b2340]">
+              <span className="block text-[9px] uppercase tracking-wider text-gray-600 font-mono mb-1">Type</span>
+              <span className="block text-sm font-bold text-[#0a0f2e] font-mono">decision</span>
+            </div>
+          </div>
+
+          <div className="bg-white border-2 border-[#0a0f2e] px-4 py-4 rounded-lg mb-5 shadow-[0_3px_0_0_#1b2340]">
+            <span className="block text-[9px] uppercase tracking-wider text-gray-600 font-mono mb-1">Content</span>
+            <p className="text-sm font-semibold text-[#0a0f2e] leading-relaxed">
+              Swapped USDC → WETH at $3,180 to rebalance risk.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div className="bg-[#f8fafc] border-2 border-[#0a0f2e] p-4 rounded-lg shadow-[0_3px_0_0_#1b2340]">
+              <span className="text-[9px] font-bold text-gray-600 uppercase tracking-wider block mb-1 font-mono">
+                TX
+              </span>
+              <span className="font-mono text-[#0f172a] select-all block font-semibold">
+                0xcb58aa...037a
+              </span>
+            </div>
+
+            <div className="bg-[#f8fafc] border-2 border-[#0a0f2e] p-4 rounded-lg shadow-[0_3px_0_0_#1b2340]">
+              <span className="text-[9px] font-bold text-gray-600 uppercase tracking-wider block mb-1 font-mono">
+                Block
+              </span>
+              <span className="font-mono text-[#0f172a] font-bold block">#1548293</span>
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center mt-5 pt-4 border-t-2 border-[#0a0f2e]">
+            <span className="text-[10px] font-mono text-[#475569]">Stored 2 min ago</span>
+            <a 
+              href="https://atlantic.pharosscan.xyz/tx/0xcb58aa000000000000000000000000000000037a"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] font-bold text-[#2563eb] hover:text-[#1d4ed8] hover:underline flex items-center gap-0.5 font-mono"
+            >
+              View on PharosScan ↗
+            </a>
+          </div>
+
+          <div className="mt-6 bg-[#d1fae5] border-2 border-[#10b981] text-[#065f46] px-4 py-2.5 rounded-lg text-xs font-bold text-center font-mono shadow-[0_3px_0_0_#0f766e]">
+            Tx confirmed on PharosScan
           </div>
         </div>
 
