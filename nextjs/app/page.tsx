@@ -8,47 +8,49 @@ export default function StarksplitLandingPage() {
     <div className="landing-page-white -mt-8 -mx-4 px-4 bg-white text-[#0a0f2e] font-sans pb-16">
       
       {/* HERO SECTION */}
-      <section className="max-w-[1100px] mx-auto py-16 md:py-24 grid grid-cols-1 gap-12 items-center">
+      <section className="relative max-w-[1100px] mx-auto py-18 md:py-28 grid grid-cols-1 gap-12 items-center">
+        <div className="pointer-events-none absolute left-1/2 top-8 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute right-6 top-28 h-44 w-44 rounded-full bg-purple-500/10 blur-3xl" />
         
         {/* LEFT COLUMN */}
-        <div className="flex flex-col items-start text-left">
+        <div className="relative z-10 flex flex-col items-center text-center mx-auto max-w-4xl">
           {/* Small Caps Badge */}
-          <span className="border border-[#0a0f2e] bg-[#f8fafc] text-[#0a0f2e] px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase mb-6">
+          <span className="border-2 border-[#0a0f2e] bg-[#f8fafc] text-[#0a0f2e] px-4 py-2 rounded-full text-[10px] font-bold tracking-wider uppercase mb-7 shadow-[0_3px_0_0_#1b2340]">
             Pharos Testnet • Gasless
           </span>
           
           {/* Main Headline */}
-          <h1 className="text-[48px] md:text-[64px] font-black text-[#0a0f2e] leading-[1.05] mb-6 tracking-tight uppercase">
+          <h1 className="text-[56px] sm:text-[70px] md:text-[96px] lg:text-[112px] font-black text-[#0a0f2e] leading-[0.92] mb-6 tracking-tight uppercase max-w-5xl">
             AGENTS FORGET.<br />
             ECHOMIND<br />
             DOESN'T.
           </h1>
           
           {/* Subtitle */}
-          <p className="text-sm md:text-base text-gray-500 mb-8 leading-relaxed max-w-md">
+          <p className="text-base md:text-lg text-[#475569] mb-8 leading-relaxed max-w-2xl">
             Persistent on-chain memory for AI agents. Store decisions, recall context, verify integrity.
           </p>
           
           {/* CTA Buttons - Capsule style with thick borders */}
-          <div className="flex flex-wrap gap-4 mb-8">
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
             <Link 
               href="/dashboard"
-              className="bg-[#4f7df7] text-white border-2 border-[#0a0f2e] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#3767ea] transition-all transform hover:-translate-y-[1px] hover:shadow-[0_5px_0_0_#1b2340] shadow-[0_4px_0_0_#1b2340] flex items-center gap-1.5"
+              className="bg-[#4f7df7] text-white border-2 border-[#0a0f2e] px-7 py-4 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#3767ea] transition-all transform hover:-translate-y-[1px] hover:shadow-[0_5px_0_0_#1b2340] shadow-[0_4px_0_0_#1b2340] flex items-center gap-1.5"
             >
               <span>Launch App</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-4 h-4" />
             </Link>
             
             <Link 
               href="/how-it-works"
-              className="bg-white text-[#0a0f2e] border-2 border-[#0a0f2e] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-slate-50 transition-all transform hover:-translate-y-[1px] hover:shadow-[0_5px_0_0_#1b2340] shadow-[0_4px_0_0_#1b2340]"
+              className="bg-white text-[#0a0f2e] border-2 border-[#0a0f2e] px-7 py-4 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-slate-50 transition-all transform hover:-translate-y-[1px] hover:shadow-[0_5px_0_0_#1b2340] shadow-[0_4px_0_0_#1b2340]"
             >
               How It Works
             </Link>
           </div>
           
           {/* Feature Pills - Pill border style */}
-          <div className="flex flex-wrap gap-2.5">
+          <div className="flex flex-wrap justify-center gap-2.5">
             <span className="border-2 border-[#0a0f2e] bg-white text-[#0a0f2e] px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono shadow-[0_3px_0_0_#1b2340]">
               No Mock Data
             </span>
@@ -58,6 +60,12 @@ export default function StarksplitLandingPage() {
             <span className="border-2 border-[#0a0f2e] bg-white text-[#0a0f2e] px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono shadow-[0_3px_0_0_#1b2340]">
               Semantic Recall
             </span>
+          </div>
+          
+          <div className="mt-10 flex items-center gap-3 text-[11px] font-mono font-bold uppercase tracking-[0.18em] text-[#334155]">
+            <span className="h-px w-10 bg-[#0a0f2e]" />
+            Build memory that lasts
+            <span className="h-px w-10 bg-[#0a0f2e]" />
           </div>
         </div>
 
