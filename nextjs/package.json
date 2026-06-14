@@ -10,7 +10,7 @@
     "test:redis": "tsx scripts/test-redis.ts"
   },
   "dependencies": {
-    "@vercel/kv": "^1.0.0",
+    "@upstash/redis": "^1.0.0",
     "autoprefixer": "^10",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",

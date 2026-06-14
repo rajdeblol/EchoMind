@@ -1,5 +1,10 @@
-import { kv } from '@vercel/kv'
+import { Redis } from '@upstash/redis'
 import { Memory, MemoryType, RecallResult } from '@/types'
+
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL || 'https://dummy.upstash.io',
+  token: process.env.UPSTASH_REDIS_REST_TOKEN || 'dummy',
+})
 
 const KV_PREFIX = 'echomind:'
 
@@ -17,15 +22,15 @@ export class KVMemoryStorage {
     const agentKey = this.getAgentKey(memory.agentId)
     
     // Store memory with TTL (30 days)
-    await kv.set(memoryKey, JSON.stringify(memory), { ex: 60 * 60 * 24 * 30 })
+    await redis.set(memoryKey, JSON.stringify(memory), { ex: 60 * 60 * 24 * 30 })
     
     // Store memory ID in a list for the agent
-    await kv.lpush(agentKey, memory.id)
+    await redis.lpush(agentKey, memory.id)
   }
 
   async getMemory(agentId: string, memoryId: string): Promise<Memory | null> {
     const memoryKey = this.getKey(agentId, memoryId)
-    const data = await kv.get<string>(memoryKey)
+    const data = await redis.get<string>(memoryKey)
     
     if (!data) return null
     return JSON.parse(data)
@@ -35,7 +40,7 @@ export class KVMemoryStorage {
     const agentKey = this.getAgentKey(agentId)
     
     // Get memory IDs from the list
-    const memoryIds = await kv.lrange<string>(agentKey, 0, limit - 1)
+    const memoryIds = await redis.lrange<string>(agentKey, 0, limit - 1)
     
     // Fetch all memories
     const memories: Memory[] = []
@@ -54,21 +59,21 @@ export class KVMemoryStorage {
     const updatedMemory = { ...memory, ...updates }
     const memoryKey = this.getKey(agentId, memoryId)
     
-    await kv.set(memoryKey, JSON.stringify(updatedMemory), { ex: 60 * 60 * 24 * 30 })
+    await redis.set(memoryKey, JSON.stringify(updatedMemory), { ex: 60 * 60 * 24 * 30 })
   }
 
   async deleteMemory(agentId: string, memoryId: string): Promise<void> {
     const memoryKey = this.getKey(agentId, memoryId)
     const agentKey = this.getAgentKey(agentId)
     
-    await kv.del(memoryKey)
+    await redis.del(memoryKey)
     
     // Remove from agent's list
-    const memoryIds = await kv.lrange<string>(agentKey, 0, -1)
+    const memoryIds = await redis.lrange<string>(agentKey, 0, -1)
     const filteredIds = memoryIds.filter(id => id !== memoryId)
-    await kv.del(agentKey)
+    await redis.del(agentKey)
     if (filteredIds.length > 0) {
-      await kv.lpush(agentKey, ...filteredIds)
+      await redis.lpush(agentKey, ...filteredIds)
     }
   }
 

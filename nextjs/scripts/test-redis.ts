@@ -1,33 +1,38 @@
-import { kv } from '@vercel/kv'
+import { Redis } from '@upstash/redis'
 
-// Test KV connection
-async function testKV() {
-  console.log('Testing Vercel KV connection...')
+// Test Redis connection
+async function testRedis() {
+  console.log('Testing Upstash Redis connection...')
   
-  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
     console.error('❌ Environment variables not set:')
-    console.error('   KV_REST_API_URL:', process.env.KV_REST_API_URL ? '✓' : '✗')
-    console.error('   KV_REST_API_TOKEN:', process.env.KV_REST_API_TOKEN ? '✓' : '✗')
+    console.error('   UPSTASH_REDIS_REST_URL:', process.env.UPSTASH_REDIS_REST_URL ? '✓' : '✗')
+    console.error('   UPSTASH_REDIS_REST_TOKEN:', process.env.UPSTASH_REDIS_REST_TOKEN ? '✓' : '✗')
     process.exit(1)
   }
 
   try {
+    const redis = new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    })
+
     // Test basic operations
-    await kv.set('test:echomind', 'Hello EchoMind!')
-    const value = await kv.get<string>('test:echomind')
+    await redis.set('test:echomind', 'Hello EchoMind!')
+    const value = await redis.get<string>('test:echomind')
     console.log('✅ Basic operation test:', value)
 
     // Test list operations (used by EchoMind)
-    await kv.lpush('test:list', 'item1', 'item2', 'item3')
-    const listItems = await kv.lrange<string>('test:list', 0, 2)
+    await redis.lpush('test:list', 'item1', 'item2', 'item3')
+    const listItems = await redis.lrange<string>('test:list', 0, 2)
     console.log('✅ List operation test:', listItems)
 
     // Clean up
-    await kv.del('test:echomind', 'test:list')
+    await redis.del('test:echomind', 'test:list')
     console.log('✅ Cleanup complete')
 
   } catch (error) {
-    console.error('❌ KV connection failed:', error)
+    console.error('❌ Redis connection failed:', error)
     process.exit(1)
   }
 }
