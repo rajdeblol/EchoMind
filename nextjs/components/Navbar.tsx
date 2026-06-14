@@ -6,19 +6,28 @@ import toast from 'react-hot-toast'
 
 export default function Navbar() {
   const [walletConnected, setWalletConnected] = useState(false)
+  const [walletAddress, setWalletAddress] = useState('')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
   const [showMobileDropdown, setShowMobileDropdown] = useState(false)
 
   const connectWithProvider = (providerName: string) => {
+    // Generate a random 40-character EVM hex address
+    const randomHex = Array.from({ length: 40 }, () => 
+      Math.floor(Math.random() * 16).toString(16)
+    ).join('')
+    const address = `0x${randomHex}`
+    
+    setWalletAddress(address)
     setWalletConnected(true)
     setShowDropdown(false)
     setShowMobileDropdown(false)
-    toast.success(`Connected with ${providerName}: 0x7c3a...ed55`)
+    toast.success(`Connected with ${providerName}: ${address.slice(0, 6)}...${address.slice(-4)}`)
   }
 
   const disconnectWallet = () => {
     setWalletConnected(false)
+    setWalletAddress('')
     setShowDropdown(false)
     setShowMobileDropdown(false)
     toast.success('Wallet disconnected')
@@ -85,7 +94,7 @@ export default function Navbar() {
             >
               <Wallet className="w-4 h-4" />
               {walletConnected ? (
-                <span className="font-mono">0x7c3a..ed55</span>
+                <span className="font-mono">{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</span>
               ) : (
                 "Connect Wallet"
               )}
@@ -179,7 +188,7 @@ export default function Navbar() {
             >
               <Wallet className="w-4 h-4" />
               {walletConnected ? (
-                <span className="font-mono">0x7c3a..ed55</span>
+                <span className="font-mono">{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</span>
               ) : (
                 "Connect Wallet"
               )}
