@@ -63,70 +63,73 @@ export default function StarksplitLandingPage() {
 
         {/* RIGHT COLUMN */}
         <div className="w-full max-w-md mx-auto">
-          {/* Latest Memory Starksplit Card */}
+          {/* Latest Memory Preview */}
           <div className="starksplit-card p-6 flex flex-col justify-between">
             <div>
-              {/* Header row */}
-              <div className="flex items-center justify-between pb-4 mb-5">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest font-mono">
-                  LATEST MEMORY
-                </span>
-                <span className="bg-[#f0fdf4] border border-[#bbf7d0] text-[#16a34a] px-2.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase font-mono">
+              <div className="flex items-start justify-between gap-4 mb-6">
+                <div>
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest font-mono mb-2">
+                    LATEST MEMORY
+                  </div>
+                  <h2 className="text-xl font-black text-[#0a0f2e] uppercase tracking-tight leading-none">
+                    Live anchor snapshot
+                  </h2>
+                </div>
+                <span className="bg-[#f0fdf4] border border-[#bbf7d0] text-[#16a34a] px-3 py-1 rounded-full text-[9px] font-bold tracking-wider uppercase font-mono whitespace-nowrap">
                   ANCHORED ✓
                 </span>
               </div>
 
-              {/* Sub-boxes for content fields */}
-              <div className="space-y-3 mb-6">
-                <div className="bg-white border-2 border-[#0a0f2e] px-4 py-2.5 rounded-lg flex justify-between items-center font-mono text-xs text-[#0a0f2e] font-bold">
-                  <span className="text-gray-400 uppercase text-[9px] tracking-wider">Agent ID</span>
-                  <span>trader-01</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+                <div className="bg-white border-2 border-[#0a0f2e] px-4 py-3 rounded-lg">
+                  <span className="block text-[9px] uppercase tracking-wider text-gray-400 font-mono mb-1">Agent ID</span>
+                  <span className="block text-sm font-bold text-[#0a0f2e] font-mono">trader-01</span>
                 </div>
-                
-                <div className="bg-white border-2 border-[#0a0f2e] px-4 py-2.5 rounded-lg flex justify-between items-center font-mono text-xs text-[#0a0f2e] font-bold">
-                  <span className="text-gray-400 uppercase text-[9px] tracking-wider">Type</span>
-                  <span>decision</span>
-                </div>
-                
-                <div className="bg-white border-2 border-[#0a0f2e] px-4 py-2.5 rounded-lg flex justify-between items-center font-mono text-xs text-[#0a0f2e] font-bold">
-                  <span className="text-gray-400 uppercase text-[9px] tracking-wider">Content</span>
-                  <span className="font-sans text-right truncate max-w-[200px]" title="Swapped USDC → WETH at $3,180">
-                    Swapped USDC → WETH at $3,180
-                  </span>
+
+                <div className="bg-white border-2 border-[#0a0f2e] px-4 py-3 rounded-lg">
+                  <span className="block text-[9px] uppercase tracking-wider text-gray-400 font-mono mb-1">Type</span>
+                  <span className="block text-sm font-bold text-[#0a0f2e] font-mono">decision</span>
                 </div>
               </div>
 
-              {/* Divider and blockchain detail */}
-              <div className="border-t-2 border-[#0a0f2e] pt-4 space-y-3 text-xs">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-0.5 font-mono">
-                      TX:
-                    </span>
-                    <span className="font-mono text-gray-600 select-all block">
-                      0xcb58aa...037a
-                    </span>
-                  </div>
-                  <a 
-                    href="https://atlantic.pharosscan.xyz/tx/0xcb58aa000000000000000000000000000000037a"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[10px] font-bold text-[#2563eb] hover:text-[#1d4ed8] hover:underline flex items-center gap-0.5 font-mono"
-                  >
-                    View on PharosScan ↗
-                  </a>
+              <div className="bg-white border-2 border-[#0a0f2e] px-4 py-3 rounded-lg mb-5">
+                <span className="block text-[9px] uppercase tracking-wider text-gray-400 font-mono mb-1">Content</span>
+                <p className="text-sm font-semibold text-[#0a0f2e] leading-relaxed">
+                  Swapped USDC → WETH at $3,180 to rebalance risk.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div className="bg-[#f8fafc] border-2 border-[#0a0f2e] p-4 rounded-lg">
+                  <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-1 font-mono">
+                    TX
+                  </span>
+                  <span className="font-mono text-gray-600 select-all block">
+                    0xcb58aa...037a
+                  </span>
                 </div>
 
-                <div className="flex justify-between items-center">
-                  <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider font-mono">
-                    Block:
+                <div className="bg-[#f8fafc] border-2 border-[#0a0f2e] p-4 rounded-lg">
+                  <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-1 font-mono">
+                    Block
                   </span>
-                  <span className="font-mono text-gray-600 font-bold">#1548293</span>
+                  <span className="font-mono text-gray-600 font-bold block">#1548293</span>
                 </div>
+              </div>
+
+              <div className="flex justify-between items-center mt-5 pt-4 border-t-2 border-[#0a0f2e]">
+                <span className="text-[10px] font-mono text-gray-500">Stored 2 min ago</span>
+                <a 
+                  href="https://atlantic.pharosscan.xyz/tx/0xcb58aa000000000000000000000000000000037a"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] font-bold text-[#2563eb] hover:text-[#1d4ed8] hover:underline flex items-center gap-0.5 font-mono"
+                >
+                  View on PharosScan ↗
+                </a>
               </div>
             </div>
 
-            {/* Confirmed green status banner */}
             <div className="mt-6 bg-[#d1fae5] border-2 border-[#10b981] text-[#065f46] px-4 py-2.5 rounded-lg text-xs font-bold text-center font-mono">
               Tx confirmed on PharosScan
             </div>

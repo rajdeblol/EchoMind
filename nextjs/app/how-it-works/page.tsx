@@ -5,7 +5,7 @@ import { Database, Search, Shield, ArrowRight } from 'lucide-react'
 
 export default function HowItWorks() {
   return (
-    <div className="flex flex-col justify-between max-w-7xl mx-auto font-sans px-4">
+    <div className="light-product-page flex flex-col justify-between max-w-7xl mx-auto font-sans px-4">
       
       {/* HEADER */}
       <section className="text-left mb-12 max-w-3xl pt-6">
@@ -132,7 +132,7 @@ export default function HowItWorks() {
       <section className="mb-14">
         <div className="text-xs font-mono tracking-widest text-purple-400 uppercase mb-6">TECHNICAL SPEC</div>
         
-        <div className="premium-card p-6 font-mono text-xs text-gray-300 space-y-2 bg-[#08080d]">
+        <div className="premium-card p-6 font-mono text-xs text-gray-700 space-y-2 bg-white">
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 py-1.5 border-b border-gray-900">
             <span className="text-gray-500 font-bold uppercase tracking-wider">Network</span>
             <span className="sm:col-span-3 text-white">Pharos Atlantic Testnet</span>

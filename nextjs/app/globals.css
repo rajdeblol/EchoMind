@@ -136,11 +136,13 @@
    White Theme Landing Page Overrides (applied conditionally via :has())
    ========================================================================== */
 
-html:has(.landing-page-white) {
+html:has(.landing-page-white),
+html:has(.light-product-page) {
   color-scheme: light !important;
 }
 
-body:has(.landing-page-white) {
+body:has(.landing-page-white),
+body:has(.light-product-page) {
   background-color: #ffffff !important;
   background-image: none !important;
   color: #0a0f2e !important;
@@ -148,12 +150,14 @@ body:has(.landing-page-white) {
 }
 
 /* Hide dark theme grid overlay on landing page */
-body:has(.landing-page-white) .absolute.inset-0.-z-10 {
+body:has(.landing-page-white) .absolute.inset-0.-z-10,
+body:has(.light-product-page) .absolute.inset-0.-z-10 {
   display: none !important;
 }
 
 /* Navbar overrides for white theme */
-body:has(.landing-page-white) nav {
+body:has(.landing-page-white) nav,
+body:has(.light-product-page) nav {
   background-color: #ffffff !important;
   border: none !important;
   border-bottom: 2px solid #0a0f2e !important; /* Thick bottom border */
@@ -167,7 +171,8 @@ body:has(.landing-page-white) nav {
 }
 
 /* Navbar Logo block (solid dark navy box like STARKSPLIT) */
-body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex {
+body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex,
+body:has(.light-product-page) nav .flex.items-center.gap-3 a.flex {
   background-color: #0a0f2e !important;
   color: #ffffff !important;
   padding: 8px 16px !important;
@@ -179,12 +184,14 @@ body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex {
   transition: transform 0.1s ease-in-out !important;
 }
 
-body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex:hover {
+body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex:hover,
+body:has(.light-product-page) nav .flex.items-center.gap-3 a.flex:hover {
   opacity: 1 !important;
   transform: scale(0.98);
 }
 
-body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex h1 {
+body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex h1,
+body:has(.light-product-page) nav .flex.items-center.gap-3 a.flex h1 {
   color: #ffffff !important;
   font-size: 15px !important;
   font-weight: 900 !important;
@@ -195,11 +202,14 @@ body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex h1 {
 
 /* Hide logo icon wrapper and tagline */
 body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex div:first-child,
-body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex p {
+body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex p,
+body:has(.light-product-page) nav .flex.items-center.gap-3 a.flex div:first-child,
+body:has(.light-product-page) nav .flex.items-center.gap-3 a.flex p {
   display: none !important;
 }
 
-body:has(.landing-page-white) nav span.badge-pill {
+body:has(.landing-page-white) nav span.badge-pill,
+body:has(.light-product-page) nav span.badge-pill {
   background-color: #ffffff !important;
   color: #0a0f2e !important;
   border: 2px solid #0a0f2e !important; /* Thick border */
@@ -210,11 +220,13 @@ body:has(.landing-page-white) nav span.badge-pill {
 }
 
 /* Desktop navbar links - styled as rounded-full tab buttons */
-body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 {
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8,
+body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 {
   gap: 12px !important;
 }
 
-body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a {
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a,
+body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 a {
   border: 2px solid #0a0f2e !important;
   border-radius: 9999px !important; /* Pill shaped */
   padding: 6px 16px !important;
@@ -229,12 +241,14 @@ body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a {
 }
 
 /* Home button (blue active) */
-body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/"] {
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/"],
+body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 a[href="/"] {
   background-color: #2563eb !important;
   color: #ffffff !important;
 }
 
-body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/"]:hover {
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/"]:hover,
+body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 a[href="/"]:hover {
   background-color: #1d4ed8 !important;
   transform: translateY(-1px) !important;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
@@ -242,20 +256,25 @@ body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href=
 
 /* Dashboard and How It Works buttons (white outline) */
 body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/dashboard"],
-body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/how-it-works"] {
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/how-it-works"],
+body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 a[href="/dashboard"],
+body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 a[href="/how-it-works"] {
   background-color: #ffffff !important;
   color: #0a0f2e !important;
 }
 
 body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/dashboard"]:hover,
-body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/how-it-works"]:hover {
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/how-it-works"]:hover,
+body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 a[href="/dashboard"]:hover,
+body:has(.light-product-page) nav div.hidden.md\:flex.items-center.gap-8 a[href="/how-it-works"]:hover {
   background-color: #f8fafc !important;
   transform: translateY(-1px) !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 }
 
 /* Right Side buttons (PharosScan and Connect Wallet) */
-body:has(.landing-page-white) nav .btn-outline {
+body:has(.landing-page-white) nav .btn-outline,
+body:has(.light-product-page) nav .btn-outline {
   background-color: #ffffff !important;
   color: #0a0f2e !important;
   border: 2px solid #0a0f2e !important;
@@ -265,13 +284,15 @@ body:has(.landing-page-white) nav .btn-outline {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-body:has(.landing-page-white) nav .btn-outline:hover {
+body:has(.landing-page-white) nav .btn-outline:hover,
+body:has(.light-product-page) nav .btn-outline:hover {
   background-color: #f8fafc !important;
   transform: translateY(-1px) !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 }
 
-body:has(.landing-page-white) nav .btn-purple {
+body:has(.landing-page-white) nav .btn-purple,
+body:has(.light-product-page) nav .btn-purple {
   background-color: #2563eb !important; /* Blue filled */
   color: #ffffff !important;
   border: 2px solid #0a0f2e !important;
@@ -281,14 +302,16 @@ body:has(.landing-page-white) nav .btn-purple {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-body:has(.landing-page-white) nav .btn-purple:hover {
+body:has(.landing-page-white) nav .btn-purple:hover,
+body:has(.light-product-page) nav .btn-purple:hover {
   background-color: #1d4ed8 !important;
   transform: translateY(-1px) !important;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
 }
 
 /* Mobile menu container overrides */
-body:has(.landing-page-white) nav div.md\:hidden {
+body:has(.landing-page-white) nav div.md\:hidden,
+body:has(.light-product-page) nav div.md\:hidden {
   border-top: 2px solid #0a0f2e !important;
   background-color: #ffffff !important;
   padding: 16px !important;
@@ -298,7 +321,8 @@ body:has(.landing-page-white) nav div.md\:hidden {
   border: 2px solid #0a0f2e !important;
 }
 
-body:has(.landing-page-white) nav div.md\:hidden a {
+body:has(.landing-page-white) nav div.md\:hidden a,
+body:has(.light-product-page) nav div.md\:hidden a {
   border: 2px solid #0a0f2e !important;
   border-radius: 9999px !important;
   text-align: center !important;
@@ -309,25 +333,30 @@ body:has(.landing-page-white) nav div.md\:hidden a {
   transition: all 0.2s ease-in-out !important;
 }
 
-body:has(.landing-page-white) nav div.md\:hidden a[href="/"] {
+body:has(.landing-page-white) nav div.md\:hidden a[href="/"],
+body:has(.light-product-page) nav div.md\:hidden a[href="/"] {
   background-color: #2563eb !important;
   color: #ffffff !important;
 }
 
 body:has(.landing-page-white) nav div.md\:hidden a[href="/dashboard"],
-body:has(.landing-page-white) nav div.md\:hidden a[href="/how-it-works"] {
+body:has(.landing-page-white) nav div.md\:hidden a[href="/how-it-works"],
+body:has(.light-product-page) nav div.md\:hidden a[href="/dashboard"],
+body:has(.light-product-page) nav div.md\:hidden a[href="/how-it-works"] {
   background-color: #ffffff !important;
   color: #0a0f2e !important;
 }
 
-body:has(.landing-page-white) nav div.md\:hidden .btn-outline {
+body:has(.landing-page-white) nav div.md\:hidden .btn-outline,
+body:has(.light-product-page) nav div.md\:hidden .btn-outline {
   border-radius: 9999px !important;
   border: 2px solid #0a0f2e !important;
   background-color: #ffffff !important;
   color: #0a0f2e !important;
 }
 
-body:has(.landing-page-white) nav div.md\:hidden .btn-purple {
+body:has(.landing-page-white) nav div.md\:hidden .btn-purple,
+body:has(.light-product-page) nav div.md\:hidden .btn-purple {
   border-radius: 9999px !important;
   border: 2px solid #0a0f2e !important;
   background-color: #2563eb !important;
@@ -337,6 +366,78 @@ body:has(.landing-page-white) nav div.md\:hidden .btn-purple {
 /* ==========================================================================
    StarkSplit Neo-Brutalist Layout Components
    ========================================================================== */
+
+/* Shared light dashboard/how-it-works shell */
+.light-product-page .premium-card {
+  background-color: #ffffff !important;
+  border: 2px solid #0a0f2e !important;
+  box-shadow: 6px 6px 0px 0px #0a0f2e !important;
+}
+
+.light-product-page .premium-card:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 8px 8px 0px 0px #0a0f2e !important;
+}
+
+.light-product-page .premium-input {
+  background-color: #ffffff !important;
+  border: 2px solid #0a0f2e !important;
+  box-shadow: none !important;
+  color: #0a0f2e !important;
+}
+
+.light-product-page .premium-input::placeholder {
+  color: #94a3b8 !important;
+}
+
+.light-product-page .btn-purple {
+  background-color: #2563eb !important;
+  border: 2px solid #0a0f2e !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 0 0 #0a0f2e !important;
+}
+
+.light-product-page .btn-purple:hover:not(:disabled) {
+  background-color: #1d4ed8 !important;
+  transform: translateY(-1px) !important;
+}
+
+.light-product-page .btn-outline {
+  background-color: #ffffff !important;
+  border: 2px solid #0a0f2e !important;
+  color: #0a0f2e !important;
+  box-shadow: none !important;
+}
+
+.light-product-page .badge-pill {
+  background-color: #ffffff !important;
+  color: #0a0f2e !important;
+  border: 2px solid #0a0f2e !important;
+}
+
+.light-product-page .badge-green {
+  background-color: #d1fae5 !important;
+  color: #065f46 !important;
+  border: 1px solid #10b981 !important;
+}
+
+.light-product-page .badge-red {
+  background-color: #fee2e2 !important;
+  color: #b91c1c !important;
+  border: 1px solid #ef4444 !important;
+}
+
+.light-product-page .text-white {
+  color: #0a0f2e !important;
+}
+
+.light-product-page [class*="bg-black/40"] {
+  background-color: #f8fafc !important;
+}
+
+.light-product-page [class*="border-gray-900"] {
+  border-color: #cbd5e1 !important;
+}
 
 /* Flat solid-shadow cards */
 .starksplit-card {

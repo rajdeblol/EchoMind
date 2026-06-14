@@ -167,7 +167,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col justify-between max-w-7xl mx-auto font-sans">
+    <div className="light-product-page flex flex-col justify-between max-w-7xl mx-auto font-sans">
       
       {/* BREADCRUMB */}
       <div className="mb-6">
