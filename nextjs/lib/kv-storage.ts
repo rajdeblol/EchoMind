@@ -1,19 +1,24 @@
 import { Redis } from '@upstash/redis'
 import { Memory, MemoryType, RecallResult } from '@/types'
 
-// Check if Upstash Redis is properly configured (and not just placeholder text)
+// Support both Upstash Redis and Vercel KV environment variables
+const redisUrl = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL
+const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN
+
+// Check if configured (and not using default template placeholders)
 const isConfigured = !!(
-  process.env.UPSTASH_REDIS_REST_URL &&
-  process.env.UPSTASH_REDIS_REST_TOKEN &&
-  process.env.UPSTASH_REDIS_REST_URL !== 'your_upstash_redis_url' &&
-  process.env.UPSTASH_REDIS_REST_URL !== ''
+  redisUrl &&
+  redisToken &&
+  redisUrl !== 'your_upstash_redis_url' &&
+  redisUrl !== 'your_vercel_kv_url' &&
+  redisUrl !== ''
 )
 
 // Construct the client only if configured, otherwise use null to trigger a clean error
 const redisClient = isConfigured
   ? new Redis({
-      url: process.env.UPSTASH_REDIS_REST_URL!,
-      token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+      url: redisUrl,
+      token: redisToken,
     })
   : null
 
@@ -23,7 +28,7 @@ export class KVMemoryStorage {
   private getRedis(): Redis {
     if (!redisClient) {
       throw new Error(
-        'Upstash Redis is not configured. Please set the UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN environment variables in your Vercel Project Settings or local .env file.'
+        'Database storage not configured. Please set UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN (or KV_REST_API_URL / KV_REST_API_TOKEN) in your Vercel Project Settings or local .env file.'
       )
     }
     return redisClient
