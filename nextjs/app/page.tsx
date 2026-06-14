@@ -17,9 +17,6 @@ import {
 import { RecallResult, VerifyResult } from '@/types'
 
 export default function Home() {
-  // Global / Navbar Wallet State
-  const [walletConnected, setWalletConnected] = useState(false)
-
   // Store Memory State
   const [storeLoading, setStoreLoading] = useState(false)
   const [storeForm, setStoreForm] = useState({
@@ -44,17 +41,6 @@ export default function Home() {
     txHash: ''
   })
   const [verifyResult, setVerifyResult] = useState<VerifyResult | null>(null)
-
-  // Wallet Connection Toggle
-  const toggleWallet = () => {
-    if (walletConnected) {
-      setWalletConnected(false)
-      toast.success('Wallet disconnected')
-    } else {
-      setWalletConnected(true)
-      toast.success('Wallet connected: 0x7c3a...ed55')
-    }
-  }
 
   // Handle Store Memory Submission
   const handleStoreSubmit = async (e: React.FormEvent) => {
@@ -166,42 +152,8 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-between py-6 max-w-7xl mx-auto font-sans">
+    <div className="flex flex-col justify-between max-w-7xl mx-auto font-sans">
       
-      {/* HEADER NAVBAR */}
-      <header className="flex flex-col md:flex-row items-center justify-between gap-4 p-5 mb-10 premium-card">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-purple-500/10 rounded-lg border border-purple-500/20">
-            <Brain className="w-6 h-6 text-purple-400" />
-          </div>
-          <span className="text-xl font-black tracking-wider text-white uppercase">EchoMind</span>
-          <span className="badge-pill px-3 py-1 text-[10px] font-bold rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
-            Pharos Testnet • Chain ID 688689
-          </span>
-        </div>
-        <div className="flex items-center gap-3 w-full md:w-auto justify-end">
-          <a 
-            href="https://atlantic.pharosscan.xyz" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="btn-outline px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 tracking-wider uppercase"
-          >
-            PharosScan <ExternalLink className="w-3.5 h-3.5" />
-          </a>
-          <button 
-            onClick={toggleWallet} 
-            className="btn-purple px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 tracking-wider uppercase"
-          >
-            <Wallet className="w-4 h-4" />
-            {walletConnected ? (
-              <span className="font-mono">0x7c3a..ed55</span>
-            ) : (
-              "Connect Wallet"
-            )}
-          </button>
-        </div>
-      </header>
-
       {/* HERO SECTION */}
       <section className="text-left mb-14 max-w-3xl">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/20 bg-purple-500/5 text-purple-400 text-xs font-bold uppercase tracking-widest mb-6">
