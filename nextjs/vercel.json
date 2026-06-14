@@ -1,0 +1,37 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "env": {
+    "PHAROS_RPC_URL": {
+      "description": "Pharos blockchain RPC URL",
+      "value": "https://atlantic.dplabs-internal.com"
+    },
+    "PHAROS_CHAIN_ID": {
+      "description": "Pharos chain ID",
+      "value": "688689"
+    },
+    "OPENAI_API_KEY": {
+      "description": "OpenAI API key for embeddings",
+      "value": ""
+    },
+    "KV_REST_API_URL": {
+      "description": "Upstash Redis REST API URL",
+      "value": ""
+    },
+    "KV_REST_API_TOKEN": {
+      "description": "Upstash Redis REST API token",
+      "value": ""
+    }
+  },
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  },
+  "regions": ["iad1"],
+  "public": false,
+  "ignoreCommand": "echo 'No ignore command'"
+}

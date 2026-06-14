@@ -1,19 +1,19 @@
-import { KV } from '@vercel/kv'
+import { Redis } from '@upstash/redis'
 import { Memory, MemoryType, RecallResult } from '@/types'
 
-// Initialize KV client
-const kv = new KV({
-  url: process.env.VERCEL_KV_REST_API_URL!,
-  token: process.env.VERCEL_KV_REST_API_TOKEN!,
+// Initialize Redis client
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL!,
+  token: process.env.KV_REST_API_TOKEN!,
 })
 
 const KV_PREFIX = 'echomind:'
 
 export class KVMemoryStorage {
-  private kv: KV
+  private redis: Redis
 
   constructor() {
-    this.kv = kv
+    this.redis = redis
   }
 
   private getKey(agentId: string, memoryId: string): string {
@@ -27,16 +27,16 @@ export class KVMemoryStorage {
   async storeMemory(memory: Memory): Promise<void> {
     // Store individual memory
     const memoryKey = this.getKey(memory.agentId, memory.id)
-    await this.kv.set(memoryKey, JSON.stringify(memory), { ex: 60 * 60 * 24 * 30 }) // 30 days TTL
+    await this.redis.set(memoryKey, JSON.stringify(memory), { ex: 60 * 60 * 24 * 30 }) // 30 days TTL
 
     // Add to agent's memory list
     const agentKey = this.getAgentKey(memory.agentId)
-    await this.kv.zadd(agentKey, { score: memory.timestamp, member: memory.id })
+    await this.redis.zadd(agentKey, { score: memory.timestamp, member: memory.id })
   }
 
   async getMemory(agentId: string, memoryId: string): Promise<Memory | null> {
     const memoryKey = this.getKey(agentId, memoryId)
-    const data = await this.kv.get<string>(memoryKey)
+    const data = await this.redis.get<string>(memoryKey)
     
     if (!data) {
       return null
@@ -49,7 +49,7 @@ export class KVMemoryStorage {
     const agentKey = this.getAgentKey(agentId)
     
     // Get memory IDs sorted by timestamp (newest first)
-    const memoryIds = await this.kv.zrange<string>(agentKey, 0, limit - 1, { rev: true })
+    const memoryIds = await this.redis.zrange<string>(agentKey, 0, limit - 1, { rev: true })
     
     // Fetch all memories
     const memories: Memory[] = []
@@ -73,15 +73,15 @@ export class KVMemoryStorage {
     const updatedMemory = { ...memory, ...updates }
     const memoryKey = this.getKey(agentId, memoryId)
     
-    await this.kv.set(memoryKey, JSON.stringify(updatedMemory), { ex: 60 * 60 * 24 * 30 })
+    await this.redis.set(memoryKey, JSON.stringify(updatedMemory), { ex: 60 * 60 * 24 * 30 })
   }
 
   async deleteMemory(agentId: string, memoryId: string): Promise<void> {
     const memoryKey = this.getKey(agentId, memoryId)
     const agentKey = this.getAgentKey(agentId)
     
-    await this.kv.del(memoryKey)
-    await this.kv.zrem(agentKey, memoryId)
+    await this.redis.del(memoryKey)
+    await this.redis.zrem(agentKey, memoryId)
   }
 
   async searchMemories(
