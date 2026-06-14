@@ -5,26 +5,11 @@
   "framework": "nextjs",
   "outputDirectory": "nextjs/.next",
   "env": {
-    "PHAROS_RPC_URL": {
-      "description": "Pharos blockchain RPC URL",
-      "value": "https://atlantic.dplabs-internal.com"
-    },
-    "PHAROS_CHAIN_ID": {
-      "description": "Pharos chain ID",
-      "value": "688689"
-    },
-    "OPENAI_API_KEY": {
-      "description": "OpenAI API key for embeddings",
-      "value": ""
-    },
-    "UPSTASH_REDIS_REST_URL": {
-      "description": "Upstash Redis REST API URL (from Vercel Marketplace)",
-      "value": ""
-    },
-    "UPSTASH_REDIS_REST_TOKEN": {
-      "description": "Upstash Redis REST API token (from Vercel Marketplace)",
-      "value": ""
-    }
+    "PHAROS_RPC_URL": "https://atlantic.dplabs-internal.com",
+    "PHAROS_CHAIN_ID": "688689",
+    "OPENAI_API_KEY": "",
+    "UPSTASH_REDIS_REST_URL": "",
+    "UPSTASH_REDIS_REST_TOKEN": ""
   },
   "ignoreCommand": "echo 'No ignore command'"
 }
