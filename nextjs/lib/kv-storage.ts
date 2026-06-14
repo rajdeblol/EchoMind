@@ -57,10 +57,18 @@ export class KVMemoryStorage {
   async getMemory(agentId: string, memoryId: string): Promise<Memory | null> {
     const redis = this.getRedis()
     const memoryKey = this.getKey(agentId, memoryId)
-    const data = await redis.get<string>(memoryKey)
+    const data = await redis.get<any>(memoryKey)
     
     if (!data) return null
-    return JSON.parse(data)
+    if (typeof data === 'object') {
+      return data as Memory
+    }
+    try {
+      return JSON.parse(data)
+    } catch (error) {
+      console.error('Failed to parse memory JSON:', data, error)
+      return data as unknown as Memory
+    }
   }
 
   async getMemoriesByAgent(agentId: string, limit: number = 100): Promise<Memory[]> {
