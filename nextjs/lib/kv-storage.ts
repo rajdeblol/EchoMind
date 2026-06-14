@@ -1,14 +1,34 @@
 import { Redis } from '@upstash/redis'
 import { Memory, MemoryType, RecallResult } from '@/types'
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL || 'https://dummy.upstash.io',
-  token: process.env.UPSTASH_REDIS_REST_TOKEN || 'dummy',
-})
+// Check if Upstash Redis is properly configured (and not just placeholder text)
+const isConfigured = !!(
+  process.env.UPSTASH_REDIS_REST_URL &&
+  process.env.UPSTASH_REDIS_REST_TOKEN &&
+  process.env.UPSTASH_REDIS_REST_URL !== 'your_upstash_redis_url' &&
+  process.env.UPSTASH_REDIS_REST_URL !== ''
+)
+
+// Construct the client only if configured, otherwise use null to trigger a clean error
+const redisClient = isConfigured
+  ? new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL!,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+    })
+  : null
 
 const KV_PREFIX = 'echomind:'
 
 export class KVMemoryStorage {
+  private getRedis(): Redis {
+    if (!redisClient) {
+      throw new Error(
+        'Upstash Redis is not configured. Please set the UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN environment variables in your Vercel Project Settings or local .env file.'
+      )
+    }
+    return redisClient
+  }
+
   private getKey(agentId: string, memoryId: string): string {
     return `${KV_PREFIX}${agentId}:${memoryId}`
   }
@@ -18,6 +38,7 @@ export class KVMemoryStorage {
   }
 
   async storeMemory(memory: Memory): Promise<void> {
+    const redis = this.getRedis()
     const memoryKey = this.getKey(memory.agentId, memory.id)
     const agentKey = this.getAgentKey(memory.agentId)
     
@@ -29,6 +50,7 @@ export class KVMemoryStorage {
   }
 
   async getMemory(agentId: string, memoryId: string): Promise<Memory | null> {
+    const redis = this.getRedis()
     const memoryKey = this.getKey(agentId, memoryId)
     const data = await redis.get<string>(memoryKey)
     
@@ -37,6 +59,7 @@ export class KVMemoryStorage {
   }
 
   async getMemoriesByAgent(agentId: string, limit: number = 100): Promise<Memory[]> {
+    const redis = this.getRedis()
     const agentKey = this.getAgentKey(agentId)
     
     // Get memory IDs from the list
@@ -53,6 +76,7 @@ export class KVMemoryStorage {
   }
 
   async updateMemory(agentId: string, memoryId: string, updates: Partial<Memory>): Promise<void> {
+    const redis = this.getRedis()
     const memory = await this.getMemory(agentId, memoryId)
     if (!memory) throw new Error(`Memory not found: ${memoryId}`)
     
@@ -63,6 +87,7 @@ export class KVMemoryStorage {
   }
 
   async deleteMemory(agentId: string, memoryId: string): Promise<void> {
+    const redis = this.getRedis()
     const memoryKey = this.getKey(agentId, memoryId)
     const agentKey = this.getAgentKey(agentId)
     
