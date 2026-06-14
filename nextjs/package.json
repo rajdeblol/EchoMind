@@ -35,3 +35,5 @@
     "typescript": "^5"
   }
 }
+,
+    "test:redis": "tsx scripts/test-redis.ts"

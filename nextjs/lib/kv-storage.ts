@@ -3,19 +3,13 @@ import { Memory, MemoryType, RecallResult } from '@/types'
 
 // Initialize Redis client
 const redis = new Redis({
-  url: process.env.KV_REST_API_URL!,
-  token: process.env.KV_REST_API_TOKEN!,
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 })
 
 const KV_PREFIX = 'echomind:'
 
 export class KVMemoryStorage {
-  private redis: Redis
-
-  constructor() {
-    this.redis = redis
-  }
-
   private getKey(agentId: string, memoryId: string): string {
     return `${KV_PREFIX}${agentId}:${memoryId}`
   }
@@ -25,23 +19,21 @@ export class KVMemoryStorage {
   }
 
   async storeMemory(memory: Memory): Promise<void> {
-    // Store individual memory
     const memoryKey = this.getKey(memory.agentId, memory.id)
-    await this.redis.set(memoryKey, JSON.stringify(memory), { ex: 60 * 60 * 24 * 30 }) // 30 days TTL
-
-    // Add to agent's memory list
     const agentKey = this.getAgentKey(memory.agentId)
-    await this.redis.zadd(agentKey, { score: memory.timestamp, member: memory.id })
+    
+    // Store memory with 30 days TTL
+    await redis.set(memoryKey, JSON.stringify(memory), { ex: 60 * 60 * 24 * 30 })
+    
+    // Store memory ID in sorted set by timestamp
+    await redis.zadd(agentKey, { score: memory.timestamp, member: memory.id })
   }
 
   async getMemory(agentId: string, memoryId: string): Promise<Memory | null> {
     const memoryKey = this.getKey(agentId, memoryId)
-    const data = await this.redis.get<string>(memoryKey)
+    const data = await redis.get<string>(memoryKey)
     
-    if (!data) {
-      return null
-    }
-    
+    if (!data) return null
     return JSON.parse(data)
   }
 
@@ -49,15 +41,13 @@ export class KVMemoryStorage {
     const agentKey = this.getAgentKey(agentId)
     
     // Get memory IDs sorted by timestamp (newest first)
-    const memoryIds = await this.redis.zrange<string>(agentKey, 0, limit - 1, { rev: true })
+    const memoryIds = await redis.zrange<string>(agentKey, 0, limit - 1, { rev: true })
     
     // Fetch all memories
     const memories: Memory[] = []
     for (const memoryId of memoryIds) {
       const memory = await this.getMemory(agentId, memoryId)
-      if (memory) {
-        memories.push(memory)
-      }
+      if (memory) memories.push(memory)
     }
     
     return memories
@@ -65,23 +55,20 @@ export class KVMemoryStorage {
 
   async updateMemory(agentId: string, memoryId: string, updates: Partial<Memory>): Promise<void> {
     const memory = await this.getMemory(agentId, memoryId)
-    
-    if (!memory) {
-      throw new Error(`Memory not found: ${memoryId}`)
-    }
+    if (!memory) throw new Error(`Memory not found: ${memoryId}`)
     
     const updatedMemory = { ...memory, ...updates }
     const memoryKey = this.getKey(agentId, memoryId)
     
-    await this.redis.set(memoryKey, JSON.stringify(updatedMemory), { ex: 60 * 60 * 24 * 30 })
+    await redis.set(memoryKey, JSON.stringify(updatedMemory), { ex: 60 * 60 * 24 * 30 })
   }
 
   async deleteMemory(agentId: string, memoryId: string): Promise<void> {
     const memoryKey = this.getKey(agentId, memoryId)
     const agentKey = this.getAgentKey(agentId)
     
-    await this.redis.del(memoryKey)
-    await this.redis.zrem(agentKey, memoryId)
+    await redis.del(memoryKey)
+    await redis.zrem(agentKey, memoryId)
   }
 
   async searchMemories(
@@ -99,16 +86,13 @@ export class KVMemoryStorage {
       results.push({ memory, similarity })
     }
     
-    // Sort by similarity (highest first) and return top K
     return results
       .sort((a, b) => b.similarity - a.similarity)
       .slice(0, topK)
   }
 
   private cosineSimilarity(a: number[], b: number[]): number {
-    if (a.length !== b.length) {
-      return 0
-    }
+    if (a.length !== b.length) return 0
     
     let dotProduct = 0
     let normA = 0
@@ -120,10 +104,7 @@ export class KVMemoryStorage {
       normB += b[i] * b[i]
     }
     
-    if (normA === 0 || normB === 0) {
-      return 0
-    }
-    
+    if (normA === 0 || normB === 0) return 0
     return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB))
   }
 
@@ -145,11 +126,7 @@ export class KVMemoryStorage {
     const totalMemories = memories.length
     const averageMemoryLength = totalMemories > 0 ? totalLength / totalMemories : 0
     
-    return {
-      totalMemories,
-      averageMemoryLength,
-      memoryTypes,
-    }
+    return { totalMemories, averageMemoryLength, memoryTypes }
   }
 }
 

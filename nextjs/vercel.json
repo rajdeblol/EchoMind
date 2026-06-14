@@ -17,12 +17,12 @@
       "description": "OpenAI API key for embeddings",
       "value": ""
     },
-    "KV_REST_API_URL": {
-      "description": "Upstash Redis REST API URL",
+    "UPSTASH_REDIS_REST_URL": {
+      "description": "Upstash Redis REST API URL (from Vercel Marketplace)",
       "value": ""
     },
-    "KV_REST_API_TOKEN": {
-      "description": "Upstash Redis REST API token",
+    "UPSTASH_REDIS_REST_TOKEN": {
+      "description": "Upstash Redis REST API token (from Vercel Marketplace)",
       "value": ""
     }
   },

@@ -147,3 +147,34 @@ NODE_ENV=production
 ```
 
 The app will now deploy successfully without native module compilation errors.
+## 🔧 Upstash Redis Integration
+
+### Setting Up Upstash Redis on Vercel:
+1. Go to **Vercel Dashboard** → Your Project → **Integrations**
+2. Search for **"Upstash Redis"** in the Marketplace
+3. Click **"Add Integration"**
+4. Create a new Redis database or connect an existing one
+5. Environment variables will be auto-added:
+   - `UPSTASH_REDIS_REST_URL`
+   - `UPSTASH_REDIS_REST_TOKEN`
+
+### Testing Redis Connection:
+```bash
+cd echomind/nextjs
+npm install
+npx tsx scripts/test-redis.ts
+```
+
+### Manual Environment Variables:
+If not using Vercel Marketplace, add these to your `.env` file:
+```env
+UPSTASH_REDIS_REST_URL=https://your-upstash-redis-url.upstash.io
+UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_token
+```
+
+### Storage Migration:
+- ✅ Removed `better-sqlite3` completely
+- ✅ Using `@upstash/redis` for all storage operations
+- ✅ Updated all API routes to use KV storage
+- ✅ Updated environment configuration
+- ✅ Added Redis connection testing script
