@@ -18,6 +18,13 @@ export default function Navbar() {
     }
   }
 
+  const handleDashboardClick = (e: React.MouseEvent) => {
+    if (window.location.pathname === '/') {
+      e.preventDefault()
+      document.getElementById('dashboard')?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
     <nav className="sticky top-0 z-50 premium-card px-5 py-4 mt-6 mb-8">
       <div className="flex items-center justify-between">
@@ -39,10 +46,17 @@ export default function Navbar() {
 
         {/* Center: Simplified Links */}
         <div className="hidden md:flex items-center gap-8">
-          <a href="#" className="text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white transition-colors">
+          <a 
+            href="/?scroll=dashboard" 
+            onClick={handleDashboardClick} 
+            className="text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white transition-colors"
+          >
             Dashboard
           </a>
-          <a href="#how-it-works" className="text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors">
+          <a 
+            href="/how-it-works" 
+            className="text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors"
+          >
             How it works
           </a>
         </div>
@@ -83,14 +97,17 @@ export default function Navbar() {
       {isMenuOpen && (
         <div className="md:hidden mt-4 pt-4 border-t border-gray-900 space-y-4">
           <a
-            href="#"
+            href="/?scroll=dashboard"
+            onClick={(e) => {
+              handleDashboardClick(e);
+              setIsMenuOpen(false);
+            }}
             className="block text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white py-2"
-            onClick={() => setIsMenuOpen(false)}
           >
             Dashboard
           </a>
           <a
-            href="#how-it-works"
+            href="/how-it-works"
             className="block text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white py-2"
             onClick={() => setIsMenuOpen(false)}
           >

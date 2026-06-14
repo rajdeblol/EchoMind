@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { 
   Brain, 
@@ -151,6 +151,15 @@ export default function Home() {
     toast.success('Sample verification data loaded')
   }
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('scroll') === 'dashboard' || window.location.hash === '#dashboard') {
+      setTimeout(() => {
+        document.getElementById('dashboard')?.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    }
+  }, []);
+
   return (
     <div className="flex flex-col justify-between max-w-7xl mx-auto font-sans">
       
@@ -186,7 +195,7 @@ export default function Home() {
       </section>
 
       {/* MAIN GRID - THREE CARDS SIDE-BY-SIDE */}
-      <main className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mb-16">
+      <main id="dashboard" className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mb-16">
         
         {/* CARD 1: STORE MEMORY */}
         <div className="premium-card p-6 flex flex-col justify-between min-h-[500px]">
