@@ -19,7 +19,7 @@ export default function DashboardPage() {
   // Store Memory State
   const [storeLoading, setStoreLoading] = useState(false)
   const [storeForm, setStoreForm] = useState({
-    agentId: 'demo-agent',
+    agentId: 'pharos-agent',
     content: '',
     type: 'decision'
   })
@@ -44,7 +44,7 @@ export default function DashboardPage() {
   // Recall Memory State
   const [recallLoading, setRecallLoading] = useState(false)
   const [recallForm, setRecallForm] = useState({
-    agentId: 'demo-agent',
+    agentId: 'pharos-agent',
     query: ''
   })
   const [recallResults, setRecallResults] = useState<RecallResult[]>([])
