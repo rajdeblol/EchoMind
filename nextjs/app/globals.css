@@ -156,95 +156,198 @@ body:has(.landing-page-white) .absolute.inset-0.-z-10 {
 body:has(.landing-page-white) nav {
   background-color: #ffffff !important;
   border: none !important;
-  border-bottom: 1px solid #e2e8f0 !important;
+  border-bottom: 2px solid #0a0f2e !important; /* Thick bottom border */
   box-shadow: none !important;
   margin-top: 0 !important;
   border-radius: 0 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
 }
 
-/* Navbar branding elements */
-body:has(.landing-page-white) nav h1 {
-  color: #0a0f2e !important;
+/* Navbar Logo block (solid dark navy box like STARKSPLIT) */
+body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex {
+  background-color: #0a0f2e !important;
+  color: #ffffff !important;
+  padding: 8px 16px !important;
+  border-radius: 6px !important;
+  border: 2px solid #0a0f2e !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0px !important;
+  transition: transform 0.1s ease-in-out !important;
 }
 
-body:has(.landing-page-white) nav p {
-  color: #64748b !important;
+body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex:hover {
+  opacity: 1 !important;
+  transform: scale(0.98);
+}
+
+body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex h1 {
+  color: #ffffff !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+}
+
+/* Hide logo icon wrapper and tagline */
+body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex div:first-child,
+body:has(.landing-page-white) nav .flex.items-center.gap-3 a.flex p {
+  display: none !important;
 }
 
 body:has(.landing-page-white) nav span.badge-pill {
-  background-color: #f1f5f9 !important;
-  color: #64748b !important;
-  border-color: #e2e8f0 !important;
+  background-color: #ffffff !important;
+  color: #0a0f2e !important;
+  border: 2px solid #0a0f2e !important; /* Thick border */
   box-shadow: none !important;
+  font-weight: 800 !important;
+  border-radius: 9999px !important;
+  font-size: 9px !important;
 }
 
-body:has(.landing-page-white) nav a {
-  color: #64748b !important;
+/* Desktop navbar links - styled as rounded-full tab buttons */
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 {
+  gap: 12px !important;
 }
 
-body:has(.landing-page-white) nav a:hover {
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a {
+  border: 2px solid #0a0f2e !important;
+  border-radius: 9999px !important; /* Pill shaped */
+  padding: 6px 16px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Home button (blue active) */
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/"] {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/"]:hover {
+  background-color: #1d4ed8 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
+}
+
+/* Dashboard and How It Works buttons (white outline) */
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/dashboard"],
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/how-it-works"] {
+  background-color: #ffffff !important;
   color: #0a0f2e !important;
 }
 
-/* Buttons inside the Navbar */
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/dashboard"]:hover,
+body:has(.landing-page-white) nav div.hidden.md\:flex.items-center.gap-8 a[href="/how-it-works"]:hover {
+  background-color: #f8fafc !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Right Side buttons (PharosScan and Connect Wallet) */
 body:has(.landing-page-white) nav .btn-outline {
-  border-color: #cbd5e1 !important;
+  background-color: #ffffff !important;
   color: #0a0f2e !important;
-  background-color: transparent !important;
+  border: 2px solid #0a0f2e !important;
+  border-radius: 9999px !important; /* Pill shaped */
   box-shadow: none !important;
+  font-weight: 800 !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 body:has(.landing-page-white) nav .btn-outline:hover {
   background-color: #f8fafc !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 }
 
 body:has(.landing-page-white) nav .btn-purple {
-  background-color: #2563eb !important; /* Pharos Blue */
+  background-color: #2563eb !important; /* Blue filled */
   color: #ffffff !important;
-  border: none !important;
-  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.2) !important;
+  border: 2px solid #0a0f2e !important;
+  border-radius: 9999px !important; /* Pill shaped */
+  box-shadow: none !important;
+  font-weight: 800 !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 body:has(.landing-page-white) nav .btn-purple:hover {
   background-color: #1d4ed8 !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4) !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
 }
 
-/* Mobile navbar overrides */
+/* Mobile menu container overrides */
 body:has(.landing-page-white) nav div.md\:hidden {
-  border-top-color: #e2e8f0 !important;
+  border-top: 2px solid #0a0f2e !important;
+  background-color: #ffffff !important;
+  padding: 16px !important;
+  margin-top: 12px !important;
+  border-radius: 12px !important;
+  box-shadow: 4px 4px 0px 0px #0a0f2e !important;
+  border: 2px solid #0a0f2e !important;
 }
 
-body:has(.landing-page-white) nav div.md\:hidden a,
-body:has(.landing-page-white) nav div.md\:hidden button {
-  color: #64748b !important;
+body:has(.landing-page-white) nav div.md\:hidden a {
+  border: 2px solid #0a0f2e !important;
+  border-radius: 9999px !important;
+  text-align: center !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  letter-spacing: 0.05em !important;
+  padding: 8px 16px !important;
+  transition: all 0.2s ease-in-out !important;
 }
 
-body:has(.landing-page-white) nav div.md\:hidden a:hover,
-body:has(.landing-page-white) nav div.md\:hidden button:hover {
+body:has(.landing-page-white) nav div.md\:hidden a[href="/"] {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+body:has(.landing-page-white) nav div.md\:hidden a[href="/dashboard"],
+body:has(.landing-page-white) nav div.md\:hidden a[href="/how-it-works"] {
+  background-color: #ffffff !important;
+  color: #0a0f2e !important;
+}
+
+body:has(.landing-page-white) nav div.md\:hidden .btn-outline {
+  border-radius: 9999px !important;
+  border: 2px solid #0a0f2e !important;
+  background-color: #ffffff !important;
   color: #0a0f2e !important;
 }
 
 body:has(.landing-page-white) nav div.md\:hidden .btn-purple {
+  border-radius: 9999px !important;
+  border: 2px solid #0a0f2e !important;
+  background-color: #2563eb !important;
   color: #ffffff !important;
 }
 
-/* How It Works custom grid hover cards */
-.how-it-works-card {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  padding: 24px;
-  border-radius: 10px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* ==========================================================================
+   StarkSplit Neo-Brutalist Layout Components
+   ========================================================================== */
+
+/* Flat solid-shadow cards */
+.starksplit-card {
+  background-color: #ffffff !important;
+  border: 2px solid #0a0f2e !important;
+  border-radius: 12px !important;
+  box-shadow: 6px 6px 0px 0px #0a0f2e !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-.how-it-works-card:hover {
-  border-color: #2563eb !important;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+.starksplit-card:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 8px 8px 0px 0px #0a0f2e !important;
 }
