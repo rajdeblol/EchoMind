@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Brain, ExternalLink, Wallet, Menu, X } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -11,18 +11,45 @@ export default function Navbar() {
   const [showDropdown, setShowDropdown] = useState(false)
   const [showMobileDropdown, setShowMobileDropdown] = useState(false)
 
-  const connectWithProvider = (providerName: string) => {
-    // Generate a random 40-character EVM hex address
-    const randomHex = Array.from({ length: 40 }, () => 
-      Math.floor(Math.random() * 16).toString(16)
-    ).join('')
-    const address = `0x${randomHex}`
-    
-    setWalletAddress(address)
-    setWalletConnected(true)
-    setShowDropdown(false)
-    setShowMobileDropdown(false)
-    toast.success(`Connected with ${providerName}: ${address.slice(0, 6)}...${address.slice(-4)}`)
+  // Real EVM Wallet Connection (MetaMask, Rabby, Brave, Coinbase extension, etc.)
+  const connectWallet = async () => {
+    if (typeof window === 'undefined') return
+
+    const ethereum = (window as any).ethereum
+    if (!ethereum) {
+      toast.error('No EVM wallet detected. Please install MetaMask or another browser wallet extension.')
+      return
+    }
+
+    try {
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+      if (accounts.length > 0) {
+        setWalletAddress(accounts[0])
+        setWalletConnected(true)
+        setShowDropdown(false)
+        setShowMobileDropdown(false)
+        toast.success(`Connected address: ${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`)
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error(error instanceof Error ? error.message : 'Wallet connection rejected')
+    }
+  }
+
+  // Handle other provider choices
+  const connectWithProvider = async (providerName: string) => {
+    if (providerName === 'MetaMask' || providerName === 'EVM Wallet') {
+      await connectWallet()
+    } else {
+      // For WalletConnect/Coinbase, fallback to standard window.ethereum if installed
+      const ethereum = (window as any).ethereum
+      if (ethereum) {
+        toast.loading(`Launching ${providerName} via browser extension...`, { id: 'provider-connect', duration: 1500 })
+        await connectWallet()
+      } else {
+        toast.error(`Please install the ${providerName} browser extension to connect.`)
+      }
+    }
   }
 
   const disconnectWallet = () => {
@@ -30,8 +57,54 @@ export default function Navbar() {
     setWalletAddress('')
     setShowDropdown(false)
     setShowMobileDropdown(false)
-    toast.success('Wallet disconnected')
+    toast.success('Wallet disconnected (client state cleared)')
   }
+
+  // Automatic connection checks & account change listeners
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const ethereum = (window as any).ethereum
+    if (ethereum) {
+      // Check if already authorized
+      ethereum.request({ method: 'eth_accounts' })
+        .then((accounts: string[]) => {
+          if (accounts.length > 0) {
+            setWalletAddress(accounts[0])
+            setWalletConnected(true)
+          }
+        })
+        .catch(console.error)
+
+      // Listen for account changes
+      const handleAccountsChanged = (accounts: string[]) => {
+        if (accounts.length > 0) {
+          setWalletAddress(accounts[0])
+          setWalletConnected(true)
+          toast.success(`Wallet switched: ${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`)
+        } else {
+          setWalletConnected(false)
+          setWalletAddress('')
+          toast.success('Wallet disconnected')
+        }
+      }
+
+      // Listen for chain changes (best practice to reload page to avoid state mismatch)
+      const handleChainChanged = () => {
+        window.location.reload()
+      }
+
+      ethereum.on('accountsChanged', handleAccountsChanged)
+      ethereum.on('chainChanged', handleChainChanged)
+
+      return () => {
+        if (ethereum.removeListener) {
+          ethereum.removeListener('accountsChanged', handleAccountsChanged)
+          ethereum.removeListener('chainChanged', handleChainChanged)
+        }
+      }
+    }
+  }, [])
 
   const handleDashboardClick = (e: React.MouseEvent) => {
     if (window.location.pathname === '/') {
