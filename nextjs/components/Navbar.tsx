@@ -114,15 +114,17 @@ export default function Navbar() {
       <div className="flex items-center justify-between">
         {/* Left Side: Logo and Network Badge */}
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-purple-500/10 rounded-lg border border-purple-500/20">
-            <Brain className="w-5 h-5 text-purple-400" />
-          </div>
-          <div>
-            <h1 className="text-lg font-black tracking-wider text-white uppercase leading-none">
-              EchoMind
-            </h1>
-            <p className="text-[10px] text-gray-500 font-mono tracking-tight mt-0.5">Persistent Agent Memory</p>
-          </div>
+          <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
+            <div className="p-2 bg-purple-500/10 rounded-lg border border-purple-500/20">
+              <Brain className="w-5 h-5 text-purple-400" />
+            </div>
+            <div>
+              <h1 className="text-lg font-black tracking-wider text-white uppercase leading-none">
+                EchoMind
+              </h1>
+              <p className="text-[10px] text-gray-500 font-mono tracking-tight mt-0.5">Persistent Agent Memory</p>
+            </div>
+          </Link>
           <span className="hidden sm:inline-block badge-pill px-2.5 py-0.5 text-[9px] font-bold rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
             Pharos Testnet • 688689
           </span>
@@ -130,6 +132,12 @@ export default function Navbar() {
 
         {/* Center: Simplified Links */}
         <div className="hidden md:flex items-center gap-8">
+          <Link 
+            href="/" 
+            className="text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors"
+          >
+            Home
+          </Link>
           <Link 
             href="/dashboard" 
             className="text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white transition-colors"
@@ -222,6 +230,13 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden mt-4 pt-4 border-t border-gray-900 space-y-4">
+          <Link
+            href="/"
+            onClick={() => setIsMenuOpen(false)}
+            className="block text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white py-2"
+          >
+            Home
+          </Link>
           <Link
             href="/dashboard"
             onClick={() => setIsMenuOpen(false)}
