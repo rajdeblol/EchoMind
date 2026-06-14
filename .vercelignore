@@ -1,0 +1,14 @@
+# Ignore root dependencies that cause build issues on Vercel
+package-lock.json
+package.json
+node_modules/
+src/
+demo/
+pharos-skill/
+tsconfig.json
+.env*
+.env.example
+PROJECT_SUMMARY.md
+README.md
+.nvmrc
+.eslintrc.json
