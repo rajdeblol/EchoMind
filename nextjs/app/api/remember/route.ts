@@ -11,7 +11,7 @@ const openaiClient = process.env.OPENAI_API_KEY
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as RememberRequest
-    const { agentId, content, type } = body
+    const { agentId, content, type, txHash } = body
 
     // Validate input
     if (!agentId || !content || !type) {
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       content,
       type,
       hash,
-      txHash: null,
+      txHash: txHash ?? null,
       timestamp: Date.now(),
       embedding,
       createdAt: new Date(),

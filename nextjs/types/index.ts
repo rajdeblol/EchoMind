@@ -31,6 +31,7 @@ export interface RememberRequest {
   agentId: string;
   content: string;
   type: MemoryType;
+  txHash?: string;
 }
 
 export interface RecallRequest {

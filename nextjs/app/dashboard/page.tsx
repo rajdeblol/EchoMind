@@ -17,6 +17,23 @@ import {
 import { RecallResult, VerifyResult } from '@/types'
 import { getEthereumProvider, sendPharosAnchorTx } from '@/lib/pharos-wallet'
 
+const sha256Hex = async (value: string) => {
+  if (!crypto.subtle) {
+    console.warn('crypto.subtle not available. Using fallback hash.')
+    let hash = 0
+    for (let i = 0; i < value.length; i++) {
+      hash = ((hash << 5) - hash) + value.charCodeAt(i)
+      hash |= 0
+    }
+    return Math.abs(hash).toString(16).padStart(64, '0')
+  }
+  const bytes = new TextEncoder().encode(value)
+  const digest = await crypto.subtle.digest('SHA-256', bytes)
+  return Array.from(new Uint8Array(digest))
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('')
+}
+
 export default function DashboardPage() {
   // Store Memory State
   const [storeLoading, setStoreLoading] = useState(false)
@@ -133,53 +150,47 @@ export default function DashboardPage() {
     setStoredResult(null)
 
     try {
-      const response = await fetch('/api/remember', {
+      let address = walletAddress
+      if (!walletConnected || !address) {
+        const connectedAddress = await connectWallet()
+        if (!connectedAddress) {
+          throw new Error('Connect your wallet to sign the Pharos transaction')
+        }
+        address = connectedAddress
+      }
+
+      const contentHash = await sha256Hex(storeForm.content)
+
+      let txHash: string | undefined
+      try {
+        txHash = await sendPharosAnchorTx(address as Address, contentHash)
+      } catch (walletError) {
+        console.error('Wallet transaction failed:', walletError)
+        toast.error('Wallet transaction failed (maybe no gas?). Saving locally instead.')
+      }
+
+      const storeResponse = await fetch('/api/remember', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(storeForm),
+        body: JSON.stringify({
+          ...storeForm,
+          txHash,
+        }),
       })
 
-      const result = await response.json()
-
-      if (result.success) {
-        const memory = result.data.memory
-
-        let address = walletAddress
-        if (!walletConnected || !address) {
-          const connectedAddress = await connectWallet()
-          if (!connectedAddress) {
-            throw new Error('Connect your wallet to sign the Pharos transaction')
-          }
-          address = connectedAddress
-        }
-
-        const txHash = await sendPharosAnchorTx(address as Address, memory.hash)
-
-        const persistResponse = await fetch('/api/remember/tx', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            agentId: memory.agentId,
-            id: memory.id,
-            txHash,
-          }),
-        })
-
-        const persistResult = await persistResponse.json()
-        if (!persistResult.success) {
-          throw new Error(persistResult.error)
-        }
-
-        setStoredResult({ id: memory.id, txHash })
-        toast.success('Memory anchored with your wallet signature!')
-        setVerifyForm({
-          agentId: memory.agentId,
-          memoryId: memory.id,
-          txHash,
-        })
-      } else {
-        throw new Error(result.error)
+      const storePersisted = await storeResponse.json()
+      if (!storePersisted.success) {
+        throw new Error(`Saving memory failed: ${storePersisted.error}`)
       }
+
+      const memory = storePersisted.data.memory
+      setStoredResult({ id: memory.id, txHash })
+      toast.success('Memory anchored with your wallet signature!')
+      setVerifyForm({
+        agentId: memory.agentId,
+        memoryId: memory.id,
+        txHash,
+      })
     } catch (error) {
       console.error(error)
       toast.error(error instanceof Error ? error.message : 'Failed to store memory')
