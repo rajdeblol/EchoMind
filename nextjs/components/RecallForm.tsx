@@ -12,7 +12,7 @@ export default function RecallForm({ onSuccess }: RecallFormProps) {
   const [loading, setLoading] = useState(false)
   const [results, setResults] = useState<RecallResult[]>([])
   const [formData, setFormData] = useState({
-    agentId: 'demo-agent',
+    agentId: 'pharos-agent',
     query: '',
     topK: 5,
   })
@@ -62,7 +62,7 @@ export default function RecallForm({ onSuccess }: RecallFormProps) {
               type="text"
               value={formData.agentId}
               onChange={(e) => setFormData({ ...formData, agentId: e.target.value })}
-              className="input-field w-full"
+            className="input-field w-full"
               placeholder="Enter agent identifier"
               required
             />

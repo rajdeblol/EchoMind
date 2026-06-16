@@ -10,7 +10,7 @@ interface RememberFormProps {
 export default function RememberForm({ onSuccess }: RememberFormProps) {
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
-    agentId: 'demo-agent',
+    agentId: 'pharos-agent',
     content: '',
     type: 'text' as const,
   })
@@ -33,7 +33,7 @@ export default function RememberForm({ onSuccess }: RememberFormProps) {
       if (result.success) {
         onSuccess(result.data)
         setFormData({
-          agentId: 'demo-agent',
+          agentId: 'pharos-agent',
           content: '',
           type: 'text',
         })

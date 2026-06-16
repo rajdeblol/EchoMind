@@ -9,66 +9,7 @@ export default function RecentMemories() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Mock data for demo
-    const mockMemories: Memory[] = [
-      {
-        id: 'memory_001',
-        agentId: 'demo-agent',
-        content: 'User requested dark mode UI with purple accent colors for better accessibility',
-        type: 'text',
-        hash: '0xabc123def456ghi789jkl012mno345pqr678stu901vwx234',
-        txHash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
-        timestamp: Date.now() - 3600000, // 1 hour ago
-        embedding: null,
-        createdAt: new Date(),
-      },
-      {
-        id: 'memory_002',
-        agentId: 'assistant-ai',
-        content: 'Implementation complete for JWT token authentication with 24-hour expiry',
-        type: 'code',
-        hash: '0xdef456ghi789jkl012mno345pqr678stu901vwx234abc123',
-        txHash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
-        timestamp: Date.now() - 7200000, // 2 hours ago
-        embedding: null,
-        createdAt: new Date(),
-      },
-      {
-        id: 'memory_003',
-        agentId: 'meeting-bot',
-        content: 'Friday 3 PM team meeting scheduled to discuss blockchain integration progress',
-        type: 'event',
-        hash: '0xghi789jkl012mno345pqr678stu901vwx234abc123def456',
-        txHash: null,
-        timestamp: Date.now() - 10800000, // 3 hours ago
-        embedding: null,
-        createdAt: new Date(),
-      },
-      {
-        id: 'memory_004',
-        agentId: 'support-agent',
-        content: 'Pharos testnet RPC endpoint confirmed: https://atlantic.dplabs-internal.com',
-        type: 'text',
-        hash: '0xjkl012mno345pqr678stu901vwx234abc123def456ghi789',
-        txHash: '0x7890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234',
-        timestamp: Date.now() - 14400000, // 4 hours ago
-        embedding: null,
-        createdAt: new Date(),
-      },
-      {
-        id: 'memory_005',
-        agentId: 'code-reviewer',
-        content: 'Semantic search implementation using all-MiniLM-L6-v2 embeddings complete',
-        type: 'code',
-        hash: '0xmno345pqr678stu901vwx234abc123def456ghi789jkl012',
-        txHash: null,
-        timestamp: Date.now() - 18000000, // 5 hours ago
-        embedding: null,
-        createdAt: new Date(),
-      },
-    ]
-
-    setMemories(mockMemories)
+    setMemories([])
     setLoading(false)
   }, [])
 
@@ -98,6 +39,12 @@ export default function RecentMemories() {
           View all →
         </button>
       </div>
+
+      {memories.length === 0 && (
+        <div className="py-10 text-center text-sm text-gray-500">
+          No live memories loaded yet.
+        </div>
+      )}
 
       <div className="space-y-4">
         {memories.map((memory) => (
@@ -165,11 +112,13 @@ export default function RecentMemories() {
         ))}
       </div>
 
-      <div className="mt-6 pt-6 border-t border-gray-800 text-center">
-        <div className="text-sm text-gray-400">
-          Showing {memories.length} of {memories.length} recent memories
+      {memories.length > 0 && (
+        <div className="mt-6 pt-6 border-t border-gray-800 text-center">
+          <div className="text-sm text-gray-400">
+            Showing {memories.length} live memories
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

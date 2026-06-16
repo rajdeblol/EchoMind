@@ -93,12 +93,13 @@ export class NextPharosClient {
   async verifyHash(txHash: Hash, expectedHash: Hash): Promise<boolean> {
     try {
       const receipt = await this.publicClient.getTransactionReceipt({ hash: txHash })
+      const tx = await this.publicClient.getTransaction({ hash: txHash })
       
       if (!receipt) {
         return false
       }
 
-      const inputData = receipt.transaction.input
+      const inputData = tx.input
       const storedHash = `0x${inputData.slice(10)}`
       
       return storedHash.toLowerCase() === expectedHash.toLowerCase()

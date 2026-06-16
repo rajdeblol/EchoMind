@@ -46,15 +46,6 @@ export default function VerifyForm({ onSuccess }: VerifyFormProps) {
     }
   }
 
-  const sampleData = {
-    memoryId: 'demo-memory-id',
-    txHash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
-  }
-
-  const loadSample = () => {
-    setFormData(sampleData)
-  }
-
   return (
     <div>
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -88,19 +79,9 @@ export default function VerifyForm({ onSuccess }: VerifyFormProps) {
               value={formData.txHash}
               onChange={(e) => setFormData({ ...formData, txHash: e.target.value })}
               className="input-field w-full font-mono text-sm"
-              placeholder="Enter Pharos transaction hash"
+              placeholder="Enter anchored Pharos transaction hash"
               required
             />
-          </div>
-
-          <div className="pt-2">
-            <button
-              type="button"
-              onClick={loadSample}
-              className="text-sm text-accent hover:text-accent/80 transition-colors"
-            >
-              Load sample data
-            </button>
           </div>
         </div>
 

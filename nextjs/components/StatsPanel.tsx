@@ -14,14 +14,13 @@ export default function StatsPanel() {
   })
 
   useEffect(() => {
-    // Mock data for demo
     setStats({
-      totalMemories: 127,
-      anchoredMemories: 89,
-      averageSimilarity: 0.87,
-      verificationRate: 94,
-      activeAgents: 12,
-      storageUsed: 2.4,
+      totalMemories: 0,
+      anchoredMemories: 0,
+      averageSimilarity: 0,
+      verificationRate: 0,
+      activeAgents: 0,
+      storageUsed: 0,
     })
   }, [])
 

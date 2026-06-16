@@ -52,6 +52,7 @@ export default function DashboardPage() {
   // Verify Proof State
   const [verifyLoading, setVerifyLoading] = useState(false)
   const [verifyForm, setVerifyForm] = useState({
+    agentId: 'pharos-agent',
     memoryId: '',
     txHash: ''
   })
@@ -77,6 +78,7 @@ export default function DashboardPage() {
         toast.success('Memory anchored successfully!')
         // Auto-fill memory ID and transaction hash in the verify form for convenience!
         setVerifyForm({
+          agentId: result.data.memory.agentId,
           memoryId: result.data.memory.id,
           txHash: result.data.memory.txHash || ''
         })
@@ -155,15 +157,6 @@ export default function DashboardPage() {
     } finally {
       setVerifyLoading(false)
     }
-  }
-
-  // Load sample verification data
-  const loadVerifySample = () => {
-    setVerifyForm({
-      memoryId: 'demo-memory-id',
-      txHash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
-    })
-    toast.success('Sample verification data loaded')
   }
 
   return (
@@ -410,12 +403,6 @@ export default function DashboardPage() {
                 <Shield className="w-4 h-4" />
                 <span>VERIFY PROOF</span>
               </div>
-              <button 
-                onClick={loadVerifySample}
-                className="text-[10px] font-mono text-gray-500 hover:text-purple-400 tracking-wider transition-colors"
-              >
-                [LOAD SAMPLE]
-              </button>
             </div>
 
             <form onSubmit={handleVerifySubmit} className="space-y-4">

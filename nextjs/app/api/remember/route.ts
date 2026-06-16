@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createHash } from 'crypto'
+import OpenAI from 'openai'
 import { kvMemoryStorage } from '@/lib/kv-storage'
 import { createPharosClient } from '@/lib/pharos-client'
 import { RememberRequest, ApiResponse, Memory } from '@/types'
 import { Hash } from 'viem'
+
+const openaiClient = process.env.OPENAI_API_KEY
+  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+  : null
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,6 +25,20 @@ export async function POST(request: NextRequest) {
 
     // Generate hash
     const hash = createHash('sha256').update(content).digest('hex')
+    let embedding: number[] | null = null
+
+    if (openaiClient) {
+      try {
+        const response = await openaiClient.embeddings.create({
+          model: 'text-embedding-3-small',
+          input: content,
+        })
+
+        embedding = response.data[0]?.embedding ?? null
+      } catch (error) {
+        console.warn('Embedding generation failed, continuing without embedding:', error)
+      }
+    }
     
     // Create memory object (no embedding needed)
     const memory: Memory = {
@@ -30,7 +49,7 @@ export async function POST(request: NextRequest) {
       hash,
       txHash: null,
       timestamp: Date.now(),
-      embedding: null, // No embeddings
+      embedding,
       createdAt: new Date(),
     }
 
@@ -43,12 +62,14 @@ export async function POST(request: NextRequest) {
       const pharosClient = createPharosClient()
       txHash = await pharosClient.anchorHash(hash as Hash, content)
     } catch (error) {
-      console.warn('Failed to anchor on Pharos, falling back to simulated txHash:', error)
-      // Fallback: Generate a valid-looking mock transaction hash so the user can complete the UI flow
-      txHash = `0x${createHash('sha256').update(Date.now().toString() + hash).digest('hex')}`
+      console.error('Failed to anchor on Pharos:', error)
+      return NextResponse.json<ApiResponse>({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to anchor memory on Pharos',
+      }, { status: 500 })
     }
 
-    // Update memory with transaction hash (real or simulated)
+    // Update memory with real transaction hash
     memory.txHash = txHash
     await kvMemoryStorage.updateMemory(agentId, memory.id, { txHash })
 

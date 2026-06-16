@@ -8,7 +8,7 @@ export interface Memory {
   hash: string;
   txHash: string | null;
   timestamp: number;
-  embedding: null; // No embeddings used
+  embedding: number[] | null;
   createdAt: Date;
 }
 
@@ -42,6 +42,7 @@ export interface RecallRequest {
 export interface VerifyRequest {
   memoryId: string;
   txHash: string;
+  agentId?: string;
 }
 
 export interface ApiResponse<T = any> {
