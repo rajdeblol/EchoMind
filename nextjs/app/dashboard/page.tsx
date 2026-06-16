@@ -352,25 +352,25 @@ export default function DashboardPage() {
 
           {/* Stored Result Details */}
           {storedResult && (
-            <div className="mt-6 p-4 rounded-lg bg-green-500/5 border border-green-500/10 space-y-3">
+            <div className="mt-6 p-4 rounded-lg bg-green-50 border border-green-200 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono font-bold text-gray-400 uppercase">Status</span>
+                <span className="text-[10px] font-mono font-bold text-gray-600 uppercase">Status</span>
                 <span className="badge-green px-2 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase">
                   ANCHORED
                 </span>
               </div>
               <div className="space-y-1">
-                <div className="text-[10px] text-gray-500 font-mono flex items-center justify-between">
+                <div className="text-[10px] text-gray-700 font-mono flex items-center justify-between">
                   <span>MEMORY ID</span>
                   <button
                     type="button"
                     onClick={() => copyToClipboard(storedResult.id, 'id')}
-                    className="text-[10px] font-mono text-purple-400 hover:text-purple-300 flex items-center gap-1 transition-colors"
+                    className="text-[10px] font-mono text-purple-600 hover:text-purple-500 flex items-center gap-1 transition-colors"
                   >
                     {copiedId ? (
                       <>
-                        <Check className="w-3 h-3 text-green-400" />
-                        <span className="text-green-400">COPIED</span>
+                        <Check className="w-3 h-3 text-green-600" />
+                        <span className="text-green-600">COPIED</span>
                       </>
                     ) : (
                       <>
@@ -380,23 +380,23 @@ export default function DashboardPage() {
                     )}
                   </button>
                 </div>
-                <div className="text-[11px] font-mono bg-black/40 p-2 rounded select-all text-gray-300 break-all">
+                <div className="text-[11px] font-mono bg-white p-2 rounded border border-gray-200 select-all text-gray-800 break-all">
                   {storedResult.id}
                 </div>
               </div>
               {storedResult.txHash && (
                 <div className="space-y-1">
-                  <div className="text-[10px] text-gray-500 font-mono flex items-center justify-between">
+                  <div className="text-[10px] text-gray-700 font-mono flex items-center justify-between">
                     <span>TX HASH</span>
                     <button
                       type="button"
                       onClick={() => copyToClipboard(storedResult.txHash!, 'tx')}
-                      className="text-[10px] font-mono text-purple-400 hover:text-purple-300 flex items-center gap-1 transition-colors"
+                      className="text-[10px] font-mono text-purple-600 hover:text-purple-500 flex items-center gap-1 transition-colors"
                     >
                       {copiedTx ? (
                         <>
-                          <Check className="w-3 h-3 text-green-400" />
-                          <span className="text-green-400">COPIED</span>
+                          <Check className="w-3 h-3 text-green-600" />
+                          <span className="text-green-600">COPIED</span>
                         </>
                       ) : (
                         <>
@@ -406,7 +406,7 @@ export default function DashboardPage() {
                       )}
                     </button>
                   </div>
-                  <div className="text-[11px] font-mono bg-black/40 p-2 rounded select-all text-gray-300 break-all">
+                  <div className="text-[11px] font-mono bg-white p-2 rounded border border-gray-200 select-all text-gray-800 break-all">
                     {storedResult.txHash}
                   </div>
                   <a 
@@ -482,16 +482,16 @@ export default function DashboardPage() {
               <div className="text-[10px] font-mono text-gray-500 uppercase tracking-wider">Results ({recallResults.length})</div>
               <div className="space-y-2">
                 {recallResults.map((res, i) => (
-                  <div key={i} className="p-3 rounded-lg bg-black/40 border border-gray-900/50 space-y-2">
+                  <div key={i} className="p-3 rounded-lg bg-gray-50 border border-gray-200 space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="px-2 py-0.5 rounded text-[8px] font-bold bg-purple-500/10 text-purple-400 uppercase tracking-wider">
+                      <span className="px-2 py-0.5 rounded text-[8px] font-bold bg-purple-100 text-purple-600 uppercase tracking-wider">
                         {res.memory.type}
                       </span>
-                      <span className="px-2 py-0.5 rounded text-[8px] font-bold bg-green-500/10 text-green-400 tracking-wider">
+                      <span className="px-2 py-0.5 rounded text-[8px] font-bold bg-green-100 text-green-700 tracking-wider">
                         {(res.similarity * 100).toFixed(1)}% Match
                       </span>
                     </div>
-                    <p className="text-xs text-gray-300 leading-relaxed">{res.memory.content}</p>
+                    <p className="text-xs text-gray-800 leading-relaxed">{res.memory.content}</p>
                     <div className="flex justify-between items-center text-[9px] font-mono text-gray-500">
                       <span>ID: {res.memory.id.slice(0, 8)}...</span>
                       <span>{new Date(res.memory.timestamp).toLocaleTimeString()}</span>
@@ -560,9 +560,9 @@ export default function DashboardPage() {
 
           {/* Verification Result details */}
           {verifyResult && (
-            <div className="mt-6 p-4 rounded-lg bg-black/40 border border-gray-900/50 space-y-4">
+            <div className="mt-6 p-4 rounded-lg bg-gray-50 border border-gray-200 space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono font-bold text-gray-500 uppercase">On-chain Status</span>
+                <span className="text-[10px] font-mono font-bold text-gray-700 uppercase">On-chain Status</span>
                 {verifyResult.valid ? (
                   <span className="badge-green px-3 py-1 rounded text-xs font-black tracking-wider flex items-center gap-1">
                     <Check className="w-3.5 h-3.5" />
@@ -578,27 +578,27 @@ export default function DashboardPage() {
 
               <div className="space-y-3 text-xs">
                 <div>
-                  <div className="text-[9px] text-gray-500 font-mono uppercase tracking-wider mb-1">Local Hash</div>
-                  <div className="font-mono bg-black/40 p-2 rounded truncate text-gray-300 text-[10px] select-all">
+                  <div className="text-[9px] text-gray-600 font-mono uppercase tracking-wider mb-1">Local Hash</div>
+                  <div className="font-mono bg-white border border-gray-200 p-2 rounded truncate text-gray-800 text-[10px] select-all">
                     {verifyResult.localHash}
                   </div>
                 </div>
 
                 <div className="flex items-center justify-center gap-2 py-1 text-gray-600 font-mono text-[9px]">
-                  <div className="h-px bg-gray-800/80 flex-grow"></div>
+                  <div className="h-px bg-gray-300 flex-grow"></div>
                   <span>{verifyResult.valid ? "MATCHES" : "MISMATCH"}</span>
-                  <div className="h-px bg-gray-800/80 flex-grow"></div>
+                  <div className="h-px bg-gray-300 flex-grow"></div>
                 </div>
 
                 <div>
-                  <div className="text-[9px] text-gray-500 font-mono uppercase tracking-wider mb-1">On-chain Hash</div>
-                  <div className="font-mono bg-black/40 p-2 rounded truncate text-gray-300 text-[10px] select-all">
+                  <div className="text-[9px] text-gray-600 font-mono uppercase tracking-wider mb-1">On-chain Hash</div>
+                  <div className="font-mono bg-white border border-gray-200 p-2 rounded truncate text-gray-800 text-[10px] select-all">
                     {verifyResult.onChainHash || 'No hash found on-chain'}
                   </div>
                 </div>
 
                 {verifyResult.blockNumber && (
-                  <div className="flex justify-between items-center text-[10px] text-gray-400 font-mono pt-3 border-t border-gray-900">
+                  <div className="flex justify-between items-center text-[10px] text-gray-500 font-mono pt-3 border-t border-gray-200">
                     <span>Block: #{verifyResult.blockNumber}</span>
                     {verifyResult.txHash && (
                       <a 
