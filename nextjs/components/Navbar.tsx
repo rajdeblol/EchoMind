@@ -156,7 +156,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           <div className="relative">
             <button
-              onClick={() => setShowDropdown(!showDropdown)}
+              onClick={() => walletConnected ? setShowDropdown(!showDropdown) : connectWallet()}
               className="btn-purple px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 tracking-wider uppercase"
             >
               <Wallet className="w-4 h-4" />
@@ -166,34 +166,6 @@ export default function Navbar() {
                 "Connect Wallet"
               )}
             </button>
-
-            {/* Wallet Selection Dropdown */}
-            {showDropdown && !walletConnected && (
-              <div className="absolute right-0 mt-2 w-56 premium-card p-4 space-y-2 z-50 text-left border border-purple-500/20 bg-[#12121a]">
-                <div className="text-[10px] font-mono text-gray-500 uppercase tracking-widest mb-2">Connect EVM Wallet</div>
-                <button 
-                  onClick={() => connectWithProvider('MetaMask')}
-                  className="w-full text-left p-2.5 rounded hover:bg-purple-500/10 hover:text-white text-xs font-mono text-gray-300 transition-colors flex items-center gap-2"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
-                  MetaMask
-                </button>
-                <button 
-                  onClick={() => connectWithProvider('WalletConnect')}
-                  className="w-full text-left p-2.5 rounded hover:bg-purple-500/10 hover:text-white text-xs font-mono text-gray-300 transition-colors flex items-center gap-2"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
-                  WalletConnect
-                </button>
-                <button 
-                  onClick={() => connectWithProvider('Coinbase Wallet')}
-                  className="w-full text-left p-2.5 rounded hover:bg-purple-500/10 hover:text-white text-xs font-mono text-gray-300 transition-colors flex items-center gap-2"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
-                  Coinbase Wallet
-                </button>
-              </div>
-            )}
 
             {/* Disconnect Dropdown */}
             {showDropdown && walletConnected && (
@@ -244,7 +216,7 @@ export default function Navbar() {
           </Link>
           <div className="space-y-2">
             <button
-              onClick={() => setShowMobileDropdown(!showMobileDropdown)}
+              onClick={() => walletConnected ? setShowMobileDropdown(!showMobileDropdown) : connectWallet()}
               className="btn-purple w-full py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-2 tracking-wider uppercase"
             >
               <Wallet className="w-4 h-4" />
@@ -254,39 +226,6 @@ export default function Navbar() {
                 "Connect Wallet"
               )}
             </button>
-
-            {/* Mobile Wallet Options */}
-            {showMobileDropdown && !walletConnected && (
-              <div className="p-2 space-y-1 bg-black/40 rounded-lg border border-purple-500/10">
-                <button 
-                  onClick={() => {
-                    connectWithProvider('MetaMask');
-                    setIsMenuOpen(false);
-                  }}
-                  className="w-full text-center py-2 rounded text-xs font-mono text-gray-300 hover:text-white hover:bg-purple-500/10"
-                >
-                  MetaMask
-                </button>
-                <button 
-                  onClick={() => {
-                    connectWithProvider('WalletConnect');
-                    setIsMenuOpen(false);
-                  }}
-                  className="w-full text-center py-2 rounded text-xs font-mono text-gray-300 hover:text-white hover:bg-purple-500/10"
-                >
-                  WalletConnect
-                </button>
-                <button 
-                  onClick={() => {
-                    connectWithProvider('Coinbase Wallet');
-                    setIsMenuOpen(false);
-                  }}
-                  className="w-full text-center py-2 rounded text-xs font-mono text-gray-300 hover:text-white hover:bg-purple-500/10"
-                >
-                  Coinbase Wallet
-                </button>
-              </div>
-            )}
 
             {/* Mobile Disconnect */}
             {showMobileDropdown && walletConnected && (

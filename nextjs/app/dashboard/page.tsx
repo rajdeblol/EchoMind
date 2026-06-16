@@ -184,12 +184,12 @@ export default function DashboardPage() {
       }
 
       const memory = storePersisted.data.memory
-      setStoredResult({ id: memory.id, txHash })
+      setStoredResult({ id: memory.id, txHash: txHash || null })
       toast.success('Memory anchored with your wallet signature!')
       setVerifyForm({
         agentId: memory.agentId,
         memoryId: memory.id,
-        txHash,
+        txHash: txHash || '',
       })
     } catch (error) {
       console.error(error)
@@ -278,22 +278,7 @@ export default function DashboardPage() {
         </Link>
       </div>
 
-      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 premium-card p-4">
-        <div>
-          <div className="text-[10px] font-mono uppercase tracking-widest text-gray-500">Wallet Signed Mode</div>
-          <div className="text-sm text-gray-300">
-            {walletConnected ? `Connected: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : 'Connect a wallet to sign Pharos transactions'}
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={connectWallet}
-          disabled={walletLoading}
-          className="btn-purple px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2 disabled:opacity-50"
-        >
-          <span>{walletConnected ? 'Reconnect Wallet' : 'Connect Wallet'}</span>
-        </button>
-      </div>
+
 
       {/* MAIN GRID - THREE CARDS SIDE-BY-SIDE */}
       <main className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mb-16">
