@@ -2,9 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createHash } from 'crypto'
 import OpenAI from 'openai'
 import { kvMemoryStorage } from '@/lib/kv-storage'
-import { createPharosClient } from '@/lib/pharos-client'
 import { RememberRequest, ApiResponse, Memory } from '@/types'
-import { Hash } from 'viem'
 
 const openaiClient = process.env.OPENAI_API_KEY
   ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
@@ -56,28 +54,10 @@ export async function POST(request: NextRequest) {
     // Store memory in KV
     await kvMemoryStorage.storeMemory(memory)
 
-    // Try to anchor on Pharos
-    let txHash: string | null = null
-    try {
-      const pharosClient = createPharosClient()
-      txHash = await pharosClient.anchorHash(hash as Hash, content)
-    } catch (error) {
-      console.error('Failed to anchor on Pharos:', error)
-      return NextResponse.json<ApiResponse>({
-        success: false,
-        error: error instanceof Error ? error.message : 'Failed to anchor memory on Pharos',
-      }, { status: 500 })
-    }
-
-    // Update memory with real transaction hash
-    memory.txHash = txHash
-    await kvMemoryStorage.updateMemory(agentId, memory.id, { txHash })
-
-    return NextResponse.json<ApiResponse<{ memory: Memory; txHash: string | null }>>({
+    return NextResponse.json<ApiResponse<{ memory: Memory }>>({
       success: true,
       data: {
         memory,
-        txHash,
       },
     })
   } catch (error) {

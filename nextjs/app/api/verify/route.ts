@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
       valid,
       memoryId,
       txHash,
-      onChainHash: txDetails?.input ? `0x${txDetails.input.slice(10)}` : '',
+      onChainHash: txDetails?.input ? txDetails.input : '',
       localHash: memory.hash,
       blockNumber: txDetails?.blockNumber ? Number(txDetails.blockNumber) : null,
       timestamp: txDetails?.timestamp ? Number(txDetails.timestamp) : null,

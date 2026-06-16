@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { Address } from 'viem'
 import { 
   Save, 
   Search, 
@@ -14,6 +15,7 @@ import {
   Copy
 } from 'lucide-react'
 import { RecallResult, VerifyResult } from '@/types'
+import { getEthereumProvider, sendPharosAnchorTx } from '@/lib/pharos-wallet'
 
 export default function DashboardPage() {
   // Store Memory State
@@ -24,6 +26,9 @@ export default function DashboardPage() {
     type: 'decision'
   })
   const [storedResult, setStoredResult] = useState<{ id: string; txHash: string | null } | null>(null)
+  const [walletConnected, setWalletConnected] = useState(false)
+  const [walletAddress, setWalletAddress] = useState('')
+  const [walletLoading, setWalletLoading] = useState(false)
 
   // Copy States
   const [copiedId, setCopiedId] = useState(false)
@@ -39,6 +44,69 @@ export default function DashboardPage() {
       setTimeout(() => setCopiedTx(false), 2000)
     }
     toast.success(`${type === 'id' ? 'Memory ID' : 'Transaction hash'} copied to clipboard!`)
+  }
+
+  useEffect(() => {
+    const ethereum = getEthereumProvider() as any
+    if (!ethereum) return
+
+    ethereum.request({ method: 'eth_accounts' })
+      .then((accounts: string[]) => {
+        if (accounts.length > 0) {
+          setWalletAddress(accounts[0])
+          setWalletConnected(true)
+        }
+      })
+      .catch(console.error)
+
+    const handleAccountsChanged = (accounts: string[]) => {
+      if (accounts.length > 0) {
+        setWalletAddress(accounts[0])
+        setWalletConnected(true)
+      } else {
+        setWalletAddress('')
+        setWalletConnected(false)
+      }
+    }
+
+    const handleChainChanged = () => {
+      window.location.reload()
+    }
+
+    ethereum.on?.('accountsChanged', handleAccountsChanged)
+    ethereum.on?.('chainChanged', handleChainChanged)
+
+    return () => {
+      ethereum.removeListener?.('accountsChanged', handleAccountsChanged)
+      ethereum.removeListener?.('chainChanged', handleChainChanged)
+    }
+  }, [])
+
+  const connectWallet = async () => {
+    const ethereum = getEthereumProvider() as any
+    if (!ethereum) {
+      toast.error('No EVM wallet detected. Please install MetaMask or another browser wallet extension.')
+      return null
+    }
+
+    setWalletLoading(true)
+    try {
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' }) as string[]
+      if (!accounts.length) {
+        throw new Error('No wallet account returned')
+      }
+
+      setWalletAddress(accounts[0])
+      setWalletConnected(true)
+      toast.success(`Connected address: ${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`)
+      return accounts[0]
+    } catch (error) {
+      console.error(error)
+      toast.error(error instanceof Error ? error.message : 'Wallet connection rejected')
+      return null
+    } finally {
+      setWalletLoading(false)
+    }
   }
 
   // Recall Memory State
@@ -74,13 +142,40 @@ export default function DashboardPage() {
       const result = await response.json()
 
       if (result.success) {
-        setStoredResult(result.data.memory)
-        toast.success('Memory anchored successfully!')
-        // Auto-fill memory ID and transaction hash in the verify form for convenience!
+        const memory = result.data.memory
+
+        let address = walletAddress
+        if (!walletConnected || !address) {
+          const connectedAddress = await connectWallet()
+          if (!connectedAddress) {
+            throw new Error('Connect your wallet to sign the Pharos transaction')
+          }
+          address = connectedAddress
+        }
+
+        const txHash = await sendPharosAnchorTx(address as Address, memory.hash)
+
+        const persistResponse = await fetch('/api/remember/tx', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            agentId: memory.agentId,
+            id: memory.id,
+            txHash,
+          }),
+        })
+
+        const persistResult = await persistResponse.json()
+        if (!persistResult.success) {
+          throw new Error(persistResult.error)
+        }
+
+        setStoredResult({ id: memory.id, txHash })
+        toast.success('Memory anchored with your wallet signature!')
         setVerifyForm({
-          agentId: result.data.memory.agentId,
-          memoryId: result.data.memory.id,
-          txHash: result.data.memory.txHash || ''
+          agentId: memory.agentId,
+          memoryId: memory.id,
+          txHash,
         })
       } else {
         throw new Error(result.error)
@@ -170,6 +265,23 @@ export default function DashboardPage() {
         >
           ← Back to Home
         </Link>
+      </div>
+
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 premium-card p-4">
+        <div>
+          <div className="text-[10px] font-mono uppercase tracking-widest text-gray-500">Wallet Signed Mode</div>
+          <div className="text-sm text-gray-300">
+            {walletConnected ? `Connected: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : 'Connect a wallet to sign Pharos transactions'}
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={connectWallet}
+          disabled={walletLoading}
+          className="btn-purple px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2 disabled:opacity-50"
+        >
+          <span>{walletConnected ? 'Reconnect Wallet' : 'Connect Wallet'}</span>
+        </button>
       </div>
 
       {/* MAIN GRID - THREE CARDS SIDE-BY-SIDE */}

@@ -1,5 +1,4 @@
-import { createPublicClient, createWalletClient, http, Hash, parseEther } from 'viem'
-import { privateKeyToAccount } from 'viem/accounts'
+import { createPublicClient, http, Hash } from 'viem'
 import { defineChain } from 'viem'
 
 export const pharosTestnet = defineChain({
@@ -46,17 +45,10 @@ export const pharosMainnet = defineChain({
 
 export class NextPharosClient {
   private publicClient
-  private walletClient
-  private account
 
   constructor() {
-    const privateKey = process.env.PHAROS_PRIVATE_KEY
     const rpcUrl = process.env.PHAROS_RPC_URL || 'https://atlantic.dplabs-internal.com'
     const chainId = process.env.PHAROS_CHAIN_ID ? parseInt(process.env.PHAROS_CHAIN_ID) : 688689
-    
-    if (!privateKey) {
-      throw new Error('PHAROS_PRIVATE_KEY environment variable is required')
-    }
 
     const chain = chainId === 688689 ? pharosTestnet : pharosMainnet
     
@@ -64,45 +56,21 @@ export class NextPharosClient {
       chain,
       transport: http(rpcUrl),
     })
-
-    this.account = privateKeyToAccount(privateKey as Hash)
-    
-    this.walletClient = createWalletClient({
-      chain,
-      transport: http(rpcUrl),
-      account: this.account,
-    })
-  }
-
-  async getBalance(): Promise<bigint> {
-    return this.publicClient.getBalance({
-      address: this.account.address,
-    })
-  }
-
-  async anchorHash(hash: Hash, data: string): Promise<Hash> {
-    const txHash = await this.walletClient.sendTransaction({
-      to: this.account.address,
-      value: parseEther('0'),
-      data: `0x${hash.slice(2)}`,
-    })
-
-    return txHash
   }
 
   async verifyHash(txHash: Hash, expectedHash: Hash): Promise<boolean> {
     try {
       const receipt = await this.publicClient.getTransactionReceipt({ hash: txHash })
       const tx = await this.publicClient.getTransaction({ hash: txHash })
-      
+
       if (!receipt) {
         return false
       }
 
-      const inputData = tx.input
-      const storedHash = `0x${inputData.slice(10)}`
-      
-      return storedHash.toLowerCase() === expectedHash.toLowerCase()
+      const inputData = tx.input.toLowerCase()
+      const normalizedExpected = expectedHash.toLowerCase()
+
+      return inputData === normalizedExpected || inputData.endsWith(normalizedExpected.slice(2))
     } catch (error) {
       console.error('Error verifying hash:', error)
       return false
@@ -130,9 +98,6 @@ export class NextPharosClient {
     }
   }
 
-  getAccountAddress(): string {
-    return this.account.address
-  }
 }
 
 // Singleton instance

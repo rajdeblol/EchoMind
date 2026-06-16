@@ -21,7 +21,6 @@ vercel
 4. **Root Directory** select करें: `echomind/nextjs`
 5. **Environment Variables** set करें:
    - `OPENAI_API_KEY` = your_openai_api_key
-   - `PHAROS_PRIVATE_KEY` = your_pharos_private_key (optional)
    - `VERCEL_KV_*` = Vercel KV credentials (optional)
 6. **Deploy** करें!
 
@@ -40,7 +39,6 @@ Vercel Dashboard में इन variables को set करें:
 OPENAI_API_KEY=sk-...
 
 # Required for Pharos blockchain
-PHAROS_PRIVATE_KEY=0x...  # Testnet के लिए
 PHAROS_RPC_URL=https://atlantic.dplabs-internal.com
 PHAROS_CHAIN_ID=688689
 

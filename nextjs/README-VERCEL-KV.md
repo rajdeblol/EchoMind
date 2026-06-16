@@ -55,7 +55,6 @@ UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_token
 OPENAI_API_KEY=your_openai_api_key
 
 # Required for Pharos blockchain
-PHAROS_PRIVATE_KEY=your_pharos_private_key
 PHAROS_RPC_URL=https://atlantic.dplabs-internal.com
 PHAROS_CHAIN_ID=688689
 ```
