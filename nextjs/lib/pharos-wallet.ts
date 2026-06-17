@@ -36,20 +36,23 @@ export async function ensurePharosTestnet(ethereum: EthereumProvider): Promise<v
       params: [{ chainId: targetChainId }],
     })
   } catch (error: any) {
-    if (error?.code !== 4902) {
-      throw error
+    // Many wallets (like Brave) do not return the standard 4902 error code.
+    // So we fallback to adding the chain if switching fails for any reason.
+    try {
+      await ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [{
+          chainId: targetChainId,
+          chainName: pharosTestnet.name,
+          nativeCurrency: pharosTestnet.nativeCurrency,
+          rpcUrls: pharosTestnet.rpcUrls.default.http,
+          blockExplorerUrls: [pharosTestnet.blockExplorers.default.url],
+        }],
+      })
+    } catch (addError) {
+      console.error('Failed to add chain:', addError)
+      throw error // Throw the original error if adding also fails
     }
-
-    await ethereum.request({
-      method: 'wallet_addEthereumChain',
-      params: [{
-        chainId: targetChainId,
-        chainName: pharosTestnet.name,
-        nativeCurrency: pharosTestnet.nativeCurrency,
-        rpcUrls: pharosTestnet.rpcUrls.default.http,
-        blockExplorerUrls: [pharosTestnet.blockExplorers.default.url],
-      }],
-    })
   }
 }
 

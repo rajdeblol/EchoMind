@@ -164,9 +164,10 @@ export default function DashboardPage() {
       let txHash: string | undefined
       try {
         txHash = await sendPharosAnchorTx(address as Address, contentHash)
-      } catch (walletError) {
+      } catch (walletError: any) {
         console.error('Wallet transaction failed:', walletError)
-        toast.error('Wallet transaction failed (maybe no gas?). Saving locally instead.')
+        const errMsg = walletError?.details || walletError?.message || 'Unknown error'
+        toast.error(`Wallet transaction failed: ${errMsg.slice(0, 50)}${errMsg.length > 50 ? '...' : ''}. Saving locally instead.`)
       }
 
       const storeResponse = await fetch('/api/remember', {
