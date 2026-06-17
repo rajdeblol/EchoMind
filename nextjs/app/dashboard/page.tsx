@@ -493,9 +493,23 @@ export default function DashboardPage() {
                       </span>
                     </div>
                     <p className="text-xs text-gray-800 leading-relaxed">{res.memory.content}</p>
-                    <div className="flex justify-between items-center text-[9px] font-mono text-gray-500">
-                      <span>ID: {res.memory.id.slice(0, 8)}...</span>
-                      <span>{new Date(res.memory.timestamp).toLocaleTimeString()}</span>
+                    <div className="space-y-1.5 mt-3 border-t border-gray-200 pt-2">
+                      <div className="flex justify-between items-center text-[9px] font-mono text-gray-500">
+                        <span className="font-bold">MEMORY ID</span>
+                        <span>{new Date(res.memory.timestamp).toLocaleTimeString()}</span>
+                      </div>
+                      <div className="text-[10px] font-mono bg-white p-1.5 rounded border border-gray-200 select-all text-gray-800 break-all">
+                        {res.memory.id}
+                      </div>
+
+                      {res.memory.txHash && (
+                        <>
+                          <div className="text-[9px] font-mono font-bold text-gray-500 mt-2">TX HASH</div>
+                          <div className="text-[10px] font-mono bg-white p-1.5 rounded border border-gray-200 select-all text-gray-800 break-all">
+                            {res.memory.txHash}
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 ))}
