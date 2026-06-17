@@ -10,8 +10,16 @@ export function getEthereumProvider(): EthereumProvider | null {
     return null
   }
 
-  const ethereum = (window as typeof window & { ethereum?: EthereumProvider }).ethereum
-  return ethereum ?? null
+  const ethereum = (window as any).ethereum
+  if (!ethereum) return null
+
+  // Prioritize MetaMask if multiple providers exist (common in Brave browser)
+  if (ethereum.providers?.length) {
+    const metaMask = ethereum.providers.find((p: any) => p.isMetaMask)
+    if (metaMask) return metaMask
+  }
+
+  return ethereum
 }
 
 export async function ensurePharosTestnet(ethereum: EthereumProvider): Promise<void> {

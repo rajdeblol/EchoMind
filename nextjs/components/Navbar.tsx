@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Brain, Wallet, Menu, X } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { getEthereumProvider } from '@/lib/pharos-wallet'
 
 export default function Navbar() {
   const [walletConnected, setWalletConnected] = useState(false)
@@ -16,7 +17,7 @@ export default function Navbar() {
   const connectWallet = async () => {
     if (typeof window === 'undefined') return
 
-    const ethereum = (window as any).ethereum
+    const ethereum = getEthereumProvider()
     if (!ethereum) {
       toast.error('No EVM wallet detected. Please install MetaMask or another browser wallet extension.')
       return
@@ -43,7 +44,7 @@ export default function Navbar() {
       await connectWallet()
     } else {
       // For WalletConnect/Coinbase, fallback to standard window.ethereum if installed
-      const ethereum = (window as any).ethereum
+      const ethereum = getEthereumProvider()
       if (ethereum) {
         toast.loading(`Launching ${providerName} via browser extension...`, { id: 'provider-connect', duration: 1500 })
         await connectWallet()
@@ -65,7 +66,7 @@ export default function Navbar() {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const ethereum = (window as any).ethereum
+    const ethereum = getEthereumProvider()
     if (ethereum) {
       // Check if already authorized
       ethereum.request({ method: 'eth_accounts' })
